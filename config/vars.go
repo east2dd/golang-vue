@@ -24,7 +24,7 @@ func initVars() {
 	vars = map[VarKey]string{
 		VAR_APP_URL: os.Getenv("APP_URL"),
 		VAR_APP_ENV: os.Getenv("APP_ENV"),
-		VAR_DATABASE_URL: fmt.Sprintf("%s@tcp(%s:%s)/%s",
+		VAR_DATABASE_URL: fmt.Sprintf("%s@tcp(%s:%s)/%s?parseTime=true",
 			os.Getenv("DB_USERNAME"),
 			//os.Getenv("DB_PASSWORD"),
 			os.Getenv("DB_HOST"),

@@ -1,16 +1,11 @@
 package main
 
 import (
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/xyingsoft/golang-vue/config"
 	"github.com/xyingsoft/golang-vue/data"
+	"github.com/xyingsoft/golang-vue/model"
 )
-
-type Category struct {
-	gorm.Model
-	Name string
-}
 
 func main() {
 	config.Init()
@@ -22,11 +17,24 @@ func main() {
 	// }
 	// defer db.Close()
 
-	// Migrate the schema
-	db.AutoMigrate(&Category{})
+	db.AutoMigrate(&model.Category{})
+	db.AutoMigrate(&model.Product{})
 
-	// Create
-	// db.Create(&Product{Code: "L1212", Price: 1000})
+	db.Create(&model.Category{
+		Name: "Mens",
+		Products: []*model.Product{
+			{Name: "Product 1", Price: 1000},
+			{Name: "Product 2", Price: 2000},
+		},
+	})
+
+	db.Create(&model.Category{
+		Name: "Womens",
+		Products: []*model.Product{
+			{Name: "Product 1", Price: 1000},
+			{Name: "Product 2", Price: 2000},
+		},
+	})
 
 	// // Read
 	// var product Product

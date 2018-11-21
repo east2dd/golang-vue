@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
+	"github.com/mholt/binding"
+	"github.com/xyingsoft/golang-vue/data"
+	"github.com/xyingsoft/golang-vue/model"
 	"github.com/xyingsoft/golang-vue/service"
 )
 
 func getProducts(c http.ResponseWriter, r *http.Request) RenderAction {
-
-	fmt.Println("api")
-	// params := mux.Vars(r)
 
 	products, error := service.GetProdudcts()
 
@@ -22,29 +23,66 @@ func getProducts(c http.ResponseWriter, r *http.Request) RenderAction {
 }
 
 func getProduct(c http.ResponseWriter, r *http.Request) RenderAction {
+	id := mux.Vars(r)["id"]
+	product := model.Product{}
 
-	fmt.Println("get product api")
+	data.DB().First(&product, id)
 
-	return JsonAction{}
+	if product.ID > 0 {
+		return JsonAction{product}
+	} else {
+		return NotFoundAction{}
+	}
 }
 
 func createProduct(c http.ResponseWriter, r *http.Request) RenderAction {
+	params := new(service.ProductParams)
+	errs := binding.Bind(r, params)
 
-	fmt.Println("create product api")
+	if errs != nil {
+		return JsonAction{}
+	}
 
-	return JsonAction{}
+	product := &model.Product{Name: params.Name, Price: params.Price}
+	data.DB().Create(product)
+
+	return JsonAction{product}
 }
 
 func updateProduct(c http.ResponseWriter, r *http.Request) RenderAction {
+	id := mux.Vars(r)["id"]
+	params := new(service.ProductParams)
 
-	fmt.Println("update product api")
+	errs := binding.Bind(r, params)
+	if errs != nil {
+		return ErrorAction{}
+	}
 
-	return JsonAction{}
+	product := model.Product{}
+	data.DB().First(&product, id)
+	if product.ID > 0 {
+		data.DB().Model(&product).Update(
+			&model.Product{
+				Name:  params.Name,
+				Price: params.Price,
+			})
+	} else {
+		return NotFoundAction{}
+	}
+
+	return JsonAction{product}
 }
 
 func deleteProduct(c http.ResponseWriter, r *http.Request) RenderAction {
+	id := mux.Vars(r)["id"]
+	product := model.Product{}
 
-	fmt.Println("delete product api")
+	data.DB().First(&product, id)
+	if product.ID > 0 {
+		data.DB().Delete(&product)
+	} else {
+		return NotFoundAction{}
+	}
 
 	return JsonAction{}
 }
