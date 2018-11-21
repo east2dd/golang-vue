@@ -2,33 +2,29 @@ package main
 
 import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/xyingsoft/golang-vue/config"
-	"github.com/xyingsoft/golang-vue/data"
-	"github.com/xyingsoft/golang-vue/model"
+	"github.com/xyingsoft/golang-vue/models"
 )
 
 func main() {
-	config.Init()
-	data.Init()
+	db := models.GetDB()
 
-	db := data.DB()
+	db.Debug().AutoMigrate(&models.Category{})
+	db.Debug().AutoMigrate(&models.Product{})
+	db.Debug().AutoMigrate(&models.Account{}) //Database migration
 
-	db.AutoMigrate(&model.Category{})
-	db.AutoMigrate(&model.Product{})
-
-	db.Create(&model.Category{
+	db.Create(&models.Category{
 		Name: "Mens",
-		Products: []*model.Product{
-			{Name: "Product 1", Price: 1000},
-			{Name: "Product 2", Price: 2000},
+		Products: []*models.Product{
+			{Name: "Product 1"},
+			{Name: "Product 2"},
 		},
 	})
 
-	db.Create(&model.Category{
+	db.Create(&models.Category{
 		Name: "Womens",
-		Products: []*model.Product{
-			{Name: "Product 1", Price: 1000},
-			{Name: "Product 2", Price: 2000},
+		Products: []*models.Product{
+			{Name: "Product 1"},
+			{Name: "Product 2"},
 		},
 	})
 }
