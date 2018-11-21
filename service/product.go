@@ -26,12 +26,12 @@ func GetProdudcts() (products []model.Product, err error) {
 	fmt.Println("Get products service")
 	data.DB().Table("products").
 		Select(`
+			id,
 			name,
 			price
 		`).Order("name ASC").Scan(&products)
 
 	if len(products) == 0 {
-		fmt.Println("Unable to find any products!")
 		err = errors.New("Unable to find any products!")
 	}
 

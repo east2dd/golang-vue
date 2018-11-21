@@ -11,8 +11,7 @@ import (
 )
 
 type CategoryParams struct {
-	Name  string `json:"name"`
-	Price int64  `json:"price"`
+	Name string `json:"name"`
 }
 
 func (m *CategoryParams) FieldMap(req *http.Request) binding.FieldMap {
@@ -22,15 +21,14 @@ func (m *CategoryParams) FieldMap(req *http.Request) binding.FieldMap {
 }
 
 func GetCategories() (categories []model.Category, err error) {
-	fmt.Println("Get products service")
-	data.DB().Table("products").
+	fmt.Println("Get categories service")
+	data.DB().Table("categories").
 		Select(`
-			name,
-			price
-		`).Order("name ASC").Scan(&categories)
+			id,
+			name
+		`).Scan(&categories)
 
 	if len(categories) == 0 {
-		fmt.Println("Unable to find any categories!")
 		err = errors.New("Unable to find any categories!")
 	}
 

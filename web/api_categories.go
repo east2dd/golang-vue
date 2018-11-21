@@ -13,13 +13,13 @@ import (
 
 func getCategories(c http.ResponseWriter, r *http.Request) RenderAction {
 
-	categorys, error := service.GetProdudcts()
+	categories, error := service.GetCategories()
 
 	if error != nil {
 		fmt.Println("ERROR")
 	}
 
-	return JsonAction{categorys}
+	return JsonAction{categories}
 }
 
 func getCategory(c http.ResponseWriter, r *http.Request) RenderAction {
@@ -36,7 +36,7 @@ func getCategory(c http.ResponseWriter, r *http.Request) RenderAction {
 }
 
 func createCategory(c http.ResponseWriter, r *http.Request) RenderAction {
-	params := new(service.categoryParams)
+	params := new(service.CategoryParams)
 	errs := binding.Bind(r, params)
 
 	if errs != nil {
@@ -51,7 +51,7 @@ func createCategory(c http.ResponseWriter, r *http.Request) RenderAction {
 
 func updateCategory(c http.ResponseWriter, r *http.Request) RenderAction {
 	id := mux.Vars(r)["id"]
-	params := new(service.categoryParams)
+	params := new(service.CategoryParams)
 
 	errs := binding.Bind(r, params)
 	if errs != nil {
@@ -72,7 +72,7 @@ func updateCategory(c http.ResponseWriter, r *http.Request) RenderAction {
 	return JsonAction{category}
 }
 
-func deletecategory(c http.ResponseWriter, r *http.Request) RenderAction {
+func deleteCategory(c http.ResponseWriter, r *http.Request) RenderAction {
 	id := mux.Vars(r)["id"]
 	category := model.Category{}
 
