@@ -36,7 +36,9 @@ func (product *Product) Create() map[string]interface{} {
 
 func GetProduct(id uint) *Product {
 	product := &Product{}
+
 	err := GetDB().Table("categories").Where("id = ?", id).First(product).Error
+
 	if err != nil {
 		return nil
 	}
@@ -45,7 +47,12 @@ func GetProduct(id uint) *Product {
 
 func GetProducts(category uint) []*Product {
 	products := make([]*Product, 0)
-	err := GetDB().Table("products").Joins("categories_products ON categories.id = categories_products.category_id").Where("categories_products.product_id = ?", category).Find(&products).Error
+
+	err := GetDB().Table("products").
+		Joins("categories_products ON categories.id = categories_products.category_id").
+		Where("categories_products.product_id = ?", category).
+		Find(&products).Error
+
 	if err != nil {
 		fmt.Println(err)
 		return nil

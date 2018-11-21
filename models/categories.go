@@ -36,6 +36,7 @@ func (category *Category) Create() map[string]interface{} {
 
 func GetCategory(id uint) *Category {
 	category := &Category{}
+
 	err := GetDB().Table("categories").Where("id = ?", id).First(category).Error
 	if err != nil {
 		return nil
@@ -45,7 +46,9 @@ func GetCategory(id uint) *Category {
 
 func GetCategories() []*Category {
 	categories := make([]*Category, 0)
+
 	err := GetDB().Table("categories").Find(&categories).Error
+
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -55,9 +58,13 @@ func GetCategories() []*Category {
 }
 
 func GetProductsFor(category uint) []*Product {
-	println(category)
 	products := make([]*Product, 0)
-	err := GetDB().Table("products").Joins("LEFT JOIN categories_products ON (products.id = categories_products.product_id)").Where("categories_products.category_id = ?", category).Find(&products).Error
+
+	err := GetDB().Table("products").
+		Joins("LEFT JOIN categories_products ON (products.id = categories_products.product_id)").
+		Where("categories_products.category_id = ?", category).
+		Find(&products).Error
+
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -68,7 +75,12 @@ func GetProductsFor(category uint) []*Product {
 
 func GetCategoriesFor(product uint) []*Category {
 	categories := make([]*Category, 0)
-	err := GetDB().Table("categories").Joins("LEFT JOIN categories_products ON (categories.id = categories_products.category_id)").Where("categories_products.product_id = ?", product).Find(&categories).Error
+
+	err := GetDB().Table("categories").
+		Joins("LEFT JOIN categories_products ON (categories.id = categories_products.category_id)").
+		Where("categories_products.product_id = ?", product).
+		Find(&categories).Error
+
 	if err != nil {
 		fmt.Println(err)
 		return nil
