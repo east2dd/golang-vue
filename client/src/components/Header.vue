@@ -1,3 +1,3 @@
 <template>
-<div>HEADER TOP</div>
+  <div class="container"></div> 
 </template>

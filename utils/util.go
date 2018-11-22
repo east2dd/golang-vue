@@ -10,6 +10,10 @@ func Message(status bool, message string) map[string]interface{} {
 }
 
 func Respond(w http.ResponseWriter, data map[string]interface{}) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Add("Content-Type", "application/json")
+
 	json.NewEncoder(w).Encode(data)
 }

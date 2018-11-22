@@ -1,7 +1,5 @@
 <template>
     <div>
-        <p>Please select a Category</p>
-        <hr>
         <ul class="list-group">
             <router-link
                     tag="li"

@@ -1,9 +1,7 @@
 <template>
     <div>
         <h1>The Product Page</h1>
-        <hr>
-        <button @click="navigateToHome" class="btn btn-primary">Go to Home</button>
-        <hr>
+        <p><button @click="navigateToHome" class="btn btn-primary">Go to Home</button></p>
         <router-view></router-view>
     </div>
 </template>

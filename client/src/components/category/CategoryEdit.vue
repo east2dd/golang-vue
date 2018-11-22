@@ -3,8 +3,7 @@
         <h3>Edit the Category</h3>
         <p>Locale: {{ $route.query.locale }}</p>
         <p>Analytics: {{ $route.query.q }}</p>
-        <hr>
-        <button class="btn btn-primary" @click="confirmed = true">Confirm</button>
+        <p><button class="btn btn-primary" @click="confirmed = true">Confirm</button></p>
         <p id="data">Some extra Data</p>
     </div>
 </template>

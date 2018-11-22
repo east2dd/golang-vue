@@ -3,10 +3,28 @@ import VueRouter from 'vue-router';
 import App from './App.vue'
 import { routes } from './routes';
 import { store } from './store/store';
-import VueMaterial from 'vue-material'
+import axios from 'axios'
 
+import VueMaterial from 'vue-material'
 import DefaultLayout from './layouts/Default'
 import UserLayout from './layouts/User'
+
+axios.defaults.baseURL = 'https://vue-update.firebaseio.com'
+axios.defaults.headers.common['Authorization'] = 'fasfdsa'
+axios.defaults.headers.get['Accepts'] = 'application/json'
+
+const reqInterceptor = axios.interceptors.request.use(config => {
+  console.log('Request Interceptor', config)
+  return config
+})
+
+const resInterceptor = axios.interceptors.response.use(res => {
+  console.log('Response Interceptor', res)
+  return res
+})
+
+axios.interceptors.request.eject(reqInterceptor)
+axios.interceptors.response.eject(resInterceptor)
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter);

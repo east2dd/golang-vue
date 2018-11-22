@@ -1,8 +1,10 @@
 <template>
-  <div class="page-container">
+  <div class="page-container">  
+    <router-view name="header-top"></router-view>
+    
     <md-app md-waterfall md-mode="fixed">
         <md-app-toolbar class="md-primary">
-        <span class="md-title"></span>
+            <span class="md-title">{{$store.state.page_title}}</span>
         </md-app-toolbar>
 
         <md-app-drawer md-permanent="full">
