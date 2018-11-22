@@ -13,6 +13,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func IndexHandler(entrypoint string) func(w http.ResponseWriter, r *http.Request) {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, entrypoint)
+	}
+
+	return http.HandlerFunc(fn)
+}
+
 func main() {
 	var entry string
 	var static string

@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import axios from '../../axios-auth';
   export default {
     data () {
       return {
@@ -38,7 +39,15 @@
           email: this.email,
           password: this.password,
         }
-        console.log(formData)
+        
+        axios.post('/api/user/login', formData)
+          .then((res) => {
+            this.$cookies.set("jwt", res.data.account.token)
+            this.$cookies.set("user", res.data.account)
+
+            this.$router.push({ name: 'categoryList' });
+          })
+          .catch(error => console.log(error))
       }
     }
   }

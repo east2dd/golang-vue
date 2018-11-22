@@ -105,9 +105,9 @@ export const routes = [
       default: Category,
       'header-top': Header
     },
-    meta: { layout: 'user'}, 
+    meta: { layout: 'user', requiresAuth: true }, 
     children: [
-      { path: '', component: CategoryList },
+      { path: '', component: CategoryList, name: 'categoryList' },
       {
         path: ':id', component: CategoryDetail, beforeEnter: (to, from, next) => {
           next();
@@ -121,7 +121,7 @@ export const routes = [
       default: Product,
       'header-top': Header
     },
-    meta: { layout: 'user'}, 
+    meta: { layout: 'user', requiresAuth: true }, 
     children: [
       { path: '', component: ProductList },
       { path: ':id', component: ProductDetail },
