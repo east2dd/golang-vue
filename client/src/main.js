@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import App from './App.vue'
-
 import VueRouter from 'vue-router';
+import App from './App.vue'
 import { routes } from './routes';
+import { store } from './store/store';
 
 Vue.use(VueRouter);
 
@@ -24,7 +24,8 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-
 new Vue({
-  render: h => h(App),
+  store: store,
+  router: router,
+  render: h => h(App)
 }).$mount('#app')
