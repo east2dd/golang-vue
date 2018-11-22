@@ -51,7 +51,9 @@ func main() {
 	router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
 	router.HandleFunc("/api/categories", controllers.GetCategories).Methods("GET")
+	router.HandleFunc("/api/categories/{id}", controllers.GetCategory).Methods("GET")
 	router.HandleFunc("/api/categories/{id}/products", controllers.GetProductsFor).Methods("GET")
+	router.HandleFunc("/api/products", controllers.GetProducts).Methods("GET")
 
 	// static service for vue
 	// router.PathPrefix("/dist").Handler(http.FileServer(http.Dir(static)))

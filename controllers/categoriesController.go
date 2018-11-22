@@ -26,7 +26,6 @@ var CreateCategory = func(w http.ResponseWriter, r *http.Request) {
 }
 
 var GetCategories = func(w http.ResponseWriter, r *http.Request) {
-
 	data := models.GetCategories()
 	resp := u.Message(true, "success")
 	resp["data"] = data
@@ -34,7 +33,6 @@ var GetCategories = func(w http.ResponseWriter, r *http.Request) {
 }
 
 var GetCategoriesFor = func(w http.ResponseWriter, r *http.Request) {
-
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
 	if err != nil {
@@ -49,8 +47,22 @@ var GetCategoriesFor = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
-var GetProductsFor = func(w http.ResponseWriter, r *http.Request) {
+var GetCategory = func(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		//The passed path parameter is not an integer
+		u.Respond(w, u.Message(false, "There was an error in your request"))
+		return
+	}
 
+	data := models.GetCategory(uint(id))
+	resp := u.Message(true, "success")
+	resp["data"] = data
+	u.Respond(w, resp)
+}
+
+var GetProductsFor = func(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
 	if err != nil {

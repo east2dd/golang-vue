@@ -18,7 +18,6 @@ func (category *Category) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "should be on the payload"), false
 	}
 
-	//All the required parameters are present
 	return u.Message(true, "success"), true
 }
 

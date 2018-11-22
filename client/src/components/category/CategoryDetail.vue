@@ -1,54 +1,49 @@
 <template>
     <div>
-        <h3>Some Category Details</h3>
         <p>Category loaded has ID: {{ $route.params.id }}</p>
-        <router-link
-                tag="button"
-                :to="link"
-                class="btn btn-primary">Edit Category
-        </router-link>
+        <p>name: {{ item.name }}</p>
+
+        <md-list class="md-double-line md-dense">
+            <product-item v-for="item in products" :item="item" :key="item.ID" ></product-item>
+        </md-list>
     </div>
 </template>
 
 <script>
   import axios from '../../axios-auth';
   import * as types from '../../store/types';
+  import ProductItem from '../product/ProductItem'
+
     export default {
         data() {
             return {
-                link: {
-                    name: 'categoryEdit',
-                    params: {
-                        id: this.$route.params.id
-                    },
-                    query: {
-                        q: 100
-                    },
-                    hash: '#data'
-                },
                 id: this.$route.params.id,
-                categories: null
+                item: {},
+                products: []
             }
+        },
+        components: {
+            'product-item': ProductItem
         },
         methods: {
-            getCategories () {
-                axios.get('/api/categories')
+            getCategory () {
+                axios.get('/api/categories/' + this.id)
                 .then((res) => {
-
-                    this.$router.push({ name: 'categoryList' });
+                    this.item = res.data.data;
                 })
                 .catch(error => console.log(error))
+            },
+            getProducts(){
+               axios.get('/api/categories/' + this.id + '/products')
+                .then((res) => {
+                    this.products = res.data.data;
+                })
+                .catch(error => console.log(error)) 
             }
         },
-         mounted () {
-            this.getCategories()
-        },
-        beforeRouteEnter(to, from, next) {
-            if (true) {
-                next();
-            } else {
-                next(false);
-            }
+        mounted () {
+            this.getCategory()
+            this.getProducts()
         }
     }
 </script>

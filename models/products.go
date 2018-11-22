@@ -45,13 +45,10 @@ func GetProduct(id uint) *Product {
 	return product
 }
 
-func GetProducts(category uint) []*Product {
+func GetProducts() []*Product {
 	products := make([]*Product, 0)
 
-	err := GetDB().Table("products").
-		Joins("categories_products ON categories.id = categories_products.category_id").
-		Where("categories_products.product_id = ?", category).
-		Find(&products).Error
+	err := GetDB().Table("products").Find(&products).Error
 
 	if err != nil {
 		fmt.Println(err)

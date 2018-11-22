@@ -1,23 +1,20 @@
 <template>
-    <div>
-        <ul class="list-group">
-            <router-link
+
+    <md-list class="md-double-line md-dense">
+        <md-list-item v-for="item in items" :key="item.id">
+            <div class="md-list-item-text">
+            <span>
+                <router-link
                     tag="li"
-                    to="/categories/1"
+                    :to="'/categories/' + item.ID"
                     class="list-group-item"
-                    style="cursor: pointer">Category 1</router-link>
-            <router-link
-                    tag="li"
-                    to="/categories/2"
-                    class="list-group-item"
-                    style="cursor: pointer">Category 2</router-link>
-            <router-link
-                    tag="li"
-                    to="/categories/3"
-                    class="list-group-item"
-                    style="cursor: pointer">Category 3</router-link>
-        </ul>
-    </div>
+                    style="cursor: pointer"><a href="javascript:void(0)">{{ item.name }}</a></router-link>
+            </span>
+            <span>id: {{ item.ID }}</span>
+            </div>
+        </md-list-item>
+    </md-list>
+
 </template>
 
 <script>
@@ -26,38 +23,21 @@ import * as types from '../../store/types';
 export default {
     data() {
         return {
-            link: {
-                name: 'categoryEdit',
-                params: {
-                    id: this.$route.params.id
-                },
-                query: {
-                    q: 100
-                },
-                hash: '#data'
-            },
             id: this.$route.params.id,
-            categories: null
+            items: null
         }
     },
     methods: {
         getCategories () {
             axios.get('/api/categories')
             .then((res) => {
-                this.$router.push({ name: 'categoryList' });
+                this.items = res.data.data;
             })
             .catch(error => console.log(error))
         }
     },
     mounted () {
         this.getCategories()
-    },
-    beforeRouteEnter(to, from, next) {
-        if (true) {
-            next();
-        } else {
-            next(false);
-        }
     }
 }
 </script>
