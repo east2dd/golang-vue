@@ -52,11 +52,10 @@ func main() {
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
 	router.HandleFunc("/api/categories", controllers.GetCategories).Methods("GET")
 	router.HandleFunc("/api/categories/{id}/products", controllers.GetProductsFor).Methods("GET")
-	router.HandleFunc("/api/me/categories", controllers.GetCategoriesFor).Methods("GET")
 
 	// static service for vue
-	router.PathPrefix("/dist").Handler(http.FileServer(http.Dir(static)))
-	router.PathPrefix("/").HandlerFunc(IndexHandler(entry))
+	// router.PathPrefix("/dist").Handler(http.FileServer(http.Dir(static)))
+	// router.PathPrefix("/").HandlerFunc(IndexHandler(entry))
 
 	fmt.Println("Listening: " + port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
