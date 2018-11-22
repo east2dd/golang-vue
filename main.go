@@ -38,7 +38,6 @@ func main() {
 	router := mux.NewRouter()
 	// Handle all preflight request for CORS
 	router.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		println("OPTIONS")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "*")
 		w.Header().Set("Access-Control-Allow-Headers", "*")
@@ -55,7 +54,6 @@ func main() {
 	router.HandleFunc("/api/categories/{id}/products", controllers.GetProductsFor).Methods("GET")
 	router.HandleFunc("/api/products", controllers.GetProducts).Methods("GET")
 
-	// static service for vue
 	// router.PathPrefix("/dist").Handler(http.FileServer(http.Dir(static)))
 	// router.PathPrefix("/").HandlerFunc(IndexHandler(entry))
 

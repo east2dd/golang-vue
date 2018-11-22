@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-
 	"github.com/jinzhu/gorm"
 	u "github.com/xyingsoft/golang-vue/utils"
 )
@@ -18,42 +16,32 @@ func (product *Product) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "should be on the payload"), false
 	}
 
-	//All the required parameters are present
 	return u.Message(true, "success"), true
 }
 
 func (product *Product) Create() map[string]interface{} {
-	if resp, ok := product.Validate(); !ok {
-		return resp
-	}
+	db := GetDB()
+	res, err := db.Exec(`INSERT INTO products(name) VALUES( ? )`, product.Name)
+	checkErr(err)
 
-	GetDB().Create(product)
+	id, err := res.LastInsertId()
+	checkErr(err)
 
+	product.ID = uint(id)
 	resp := u.Message(true, "success")
-	resp["contact"] = product
+	resp["product"] = product
 	return resp
 }
 
-func GetProduct(id uint) *Product {
-	product := &Product{}
+func (product *Product) Update() map[string]interface{} {
+	res, err := db.Exec(`UPDATE products SET name = ? WHERE id = ?`, product.Name, product.ID)
+	checkErr(err)
 
-	err := GetDB().Table("categories").Where("id = ?", id).First(product).Error
+	id, err := res.LastInsertId()
+	checkErr(err)
 
-	if err != nil {
-		return nil
-	}
-	return product
-}
-
-func GetProducts() []*Product {
-	products := make([]*Product, 0)
-
-	err := GetDB().Table("products").Find(&products).Error
-
-	if err != nil {
-		fmt.Println(err)
-		return nil
-	}
-
-	return products
+	product.ID = uint(id)
+	resp := u.Message(true, "success")
+	resp["product"] = product
+	return resp
 }

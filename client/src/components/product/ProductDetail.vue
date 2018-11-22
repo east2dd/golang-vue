@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Product Details</h3>
+        <h5>Product Details</h5>
         <p>ID: {{ $route.params.id }}</p>
         <router-link
                 tag="button"

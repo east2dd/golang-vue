@@ -11,7 +11,6 @@ import (
 )
 
 var CreateCategory = func(w http.ResponseWriter, r *http.Request) {
-
 	// user := r.Context().Value("user").(uint)
 	category := &models.Category{}
 

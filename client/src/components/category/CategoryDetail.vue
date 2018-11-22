@@ -1,7 +1,8 @@
 <template>
     <div>
-        <p>Category loaded has ID: {{ $route.params.id }}</p>
-        <p>name: {{ item.name }}</p>
+        <h5>ID: {{ $route.params.id }}, Name: {{ item.name }}</h5>
+
+        <md-subheader>PRODUCTS</md-subheader>
 
         <md-list class="md-double-line md-dense">
             <product-item v-for="item in products" :item="item" :key="item.ID" ></product-item>

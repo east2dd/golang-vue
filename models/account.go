@@ -11,16 +11,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-/*
-JWT claims struct
-*/
 type Token struct {
 	UserId   uint
 	Username string
 	jwt.StandardClaims
 }
 
-//a struct to rep user account
 type Account struct {
 	gorm.Model
 	Email    string `json:"email"`
@@ -40,13 +36,18 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	}
 
 	//Email must be unique
+	println("validating account")
 	temp := &Account{}
 
-	//check for errors and duplicate emails
-	err := GetDB().Table("accounts").Where("email = ?", account.Email).First(temp).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return u.Message(false, "Connection error. Please retry"), false
+	rows, err := db.Query(`SELECT id, email FROM accounts WHERE email = ?`, account.Email)
+	checkErr(err)
+
+	for rows.Next() {
+		err = rows.Scan(&temp.ID, &temp.Email)
+		checkErr(err)
 	}
+
+	println(account.Email)
 	if temp.Email != "" {
 		return u.Message(false, "Email address already in use by another user."), false
 	}
@@ -55,15 +56,22 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 }
 
 func (account *Account) Create() map[string]interface{} {
-
 	if resp, ok := account.Validate(); !ok {
 		return resp
 	}
 
+	println("create account")
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
 	account.Password = string(hashedPassword)
 
-	GetDB().Create(account)
+	res, err := db.Exec(`INSERT INTO accounts(email, password) VALUES( ?, ? )`, account.Email, account.Password)
+
+	if err == nil {
+		id, err := res.LastInsertId()
+		checkErr(err)
+
+		account.ID = uint(id)
+	}
 
 	if account.ID <= 0 {
 		return u.Message(false, "Failed to create account, connection error.")
@@ -74,7 +82,6 @@ func (account *Account) Create() map[string]interface{} {
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
 	account.Token = tokenString
-
 	account.Password = "" //delete password
 
 	response := u.Message(true, "Account has been created")
@@ -83,20 +90,21 @@ func (account *Account) Create() map[string]interface{} {
 }
 
 func Login(email, password string) map[string]interface{} {
-
 	account := &Account{}
-	err := GetDB().Table("accounts").Where("email = ?", email).First(account).Error
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return u.Message(false, "Email address not found")
-		}
-		return u.Message(false, "Connection error. Please retry")
+
+	rows, err := db.Query(`SELECT id, email, password FROM accounts WHERE email = ?`, email)
+	checkErr(err)
+
+	for rows.Next() {
+		err = rows.Scan(&account.ID, &account.Email, &account.Password)
+		checkErr(err)
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(password))
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
 		return u.Message(false, "Invalid login credentials. Please try again")
 	}
+
 	//Worked! Logged In
 	account.Password = ""
 
@@ -113,12 +121,23 @@ func Login(email, password string) map[string]interface{} {
 
 func GetUser(u uint) *Account {
 
-	acc := &Account{}
-	GetDB().Table("accounts").Where("id = ?", u).First(acc)
-	if acc.Email == "" { //User not found!
-		return nil
+	account := &Account{}
+	rows, err := db.Query(`SELECT * FROM accounts WHERE id = ?`, u)
+	checkErr(err)
+
+	for rows.Next() {
+		err = rows.Scan(&account.ID, &account.Email, &account.Password)
+		checkErr(err)
 	}
 
-	acc.Password = ""
-	return acc
+	if err != nil {
+		panic(err)
+	} else {
+		if account.Email == "" { //User not found!
+			return nil
+		}
+	}
+
+	account.Password = ""
+	return account
 }

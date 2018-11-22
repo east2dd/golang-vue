@@ -1,15 +1,15 @@
 package models
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/subosito/gotenv"
 )
 
-var db *sql.DB //database
+var gormdb *gorm.DB //database
 
 func init() {
 
@@ -36,21 +36,15 @@ func init() {
 
 	fmt.Println(dbURI)
 
-	conn, err := sql.Open("mysql", dbURI)
+	conn, err := gorm.Open("mysql", dbURI)
 	if err != nil {
 		fmt.Print(err)
 	}
 
-	db = conn
+	gormdb = conn
 
 }
 
-func GetDB() *sql.DB {
-	return db
-}
-
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
+func GetGormDB() *gorm.DB {
+	return gormdb
 }
