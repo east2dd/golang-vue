@@ -1,14 +1,14 @@
 <template>
 
     <md-list class="md-double-line md-dense">
-        <md-list-item v-for="item in items" :key="item.id">
+        <md-list-item v-for="item in items" :key="item.ID">
             <div class="md-list-item-text">
             <span>
                 <router-link
                     tag="li"
                     :to="'/categories/' + item.ID"
                     class="list-group-item"
-                    style="cursor: pointer"><a href="javascript:void(0)">{{ item.name }}</a></router-link>
+                    style="cursor: pointer"><a href="javascript:void(0)">{{ item.Name }}</a></router-link>
             </span>
             <span>id: {{ item.ID }}</span>
             </div>

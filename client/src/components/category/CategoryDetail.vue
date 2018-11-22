@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h5>ID: {{ $route.params.id }}, Name: {{ item.name }}</h5>
+        <h5>ID: {{ $route.params.id }}, Name: {{ item.Name }}</h5>
 
         <md-subheader>PRODUCTS</md-subheader>
 

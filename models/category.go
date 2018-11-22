@@ -1,14 +1,17 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	u "github.com/xyingsoft/golang-vue/utils"
 )
 
+type CategoryParams struct {
+	Name string
+}
+
 type Category struct {
-	gorm.Model
-	Name     string     `json:"name"`
-	Products []*Product `gorm:"many2many:categories_products;"`
+	ID       uint
+	Name     string
+	Products []*Product
 }
 
 func (category *Category) Validate() (map[string]interface{}, bool) {

@@ -1,14 +1,17 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	u "github.com/xyingsoft/golang-vue/utils"
 )
 
+type ProductParams struct {
+	Name string
+}
+
 type Product struct {
-	gorm.Model
-	Name       string      `json:"name"`
-	Categories []*Category `gorm:"many2many:categories_products;"`
+	ID         uint
+	Name       string
+	Categories []*Category
 }
 
 func (product *Product) Validate() (map[string]interface{}, bool) {
@@ -37,11 +40,16 @@ func (product *Product) Update() map[string]interface{} {
 	res, err := db.Exec(`UPDATE products SET name = ? WHERE id = ?`, product.Name, product.ID)
 	checkErr(err)
 
-	id, err := res.LastInsertId()
+	var count int64
+	count, err = res.RowsAffected()
 	checkErr(err)
 
-	product.ID = uint(id)
-	resp := u.Message(true, "success")
-	resp["product"] = product
-	return resp
+	if count > 0 {
+		resp := u.Message(true, "success")
+		resp["product"] = product
+		return resp
+	} else {
+		resp := u.Message(true, "failed")
+		return resp
+	}
 }

@@ -7,10 +7,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gorilla/mux"
 	"github.com/xyingsoft/golang-vue/app"
 	"github.com/xyingsoft/golang-vue/controllers"
-
-	"github.com/gorilla/mux"
 )
 
 func IndexHandler(entrypoint string) func(w http.ResponseWriter, r *http.Request) {
