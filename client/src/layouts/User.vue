@@ -3,10 +3,6 @@
     <router-view name="header-top"></router-view>
     
     <md-app md-waterfall md-mode="fixed">
-        <md-app-toolbar class="md-primary">
-            <span class="md-title">{{$store.state.page_title}}</span>
-        </md-app-toolbar>
-
         <md-app-drawer md-permanent="full">
             <md-toolbar class="md-transparent" md-elevation="0">
                 Golang VUE

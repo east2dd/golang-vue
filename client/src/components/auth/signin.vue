@@ -26,6 +26,8 @@
 
 <script>
   import axios from '../../axios-auth';
+  import * as types from '../../store/types';
+
   export default {
     data () {
       return {
@@ -42,9 +44,7 @@
         
         axios.post('/api/user/login', formData)
           .then((res) => {
-            this.$cookies.set("jwt", res.data.account.token)
-            this.$cookies.set("user", res.data.account)
-
+            this.$store.dispatch(types.LOGIN_USER, res.data.account)
             this.$router.push({ name: 'categoryList' });
           })
           .catch(error => console.log(error))

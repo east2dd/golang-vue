@@ -17,7 +17,7 @@ export const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let jwt = $cookies.get('jwt') || localStorage.getItem('jwt');
-  
+
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (jwt == null) {
           next({

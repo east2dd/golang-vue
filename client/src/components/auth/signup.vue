@@ -53,9 +53,16 @@
           password: this.password,
           confirmPassword: this.confirmPassword,
         }
+        
         console.log(formData)
+
         axios.post('/api/user/new', formData)
-          .then(res => console.log(res))
+          .then((res) => {
+            this.$cookies.set("jwt", res.data.account.token)
+            this.$cookies.set("user", res.data.account)
+
+            this.$router.push({ name: 'categoryList' });
+          })
           .catch(error => console.log(error))
       }
     }

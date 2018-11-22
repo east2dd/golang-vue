@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <h1>The Category Page</h1>
-        <button @click="navigateToHome" class="btn btn-primary">Go to Home</button>
+    <div class="row">
+        <h1>Categories</h1>
+
         <router-view></router-view>
     </div>
 </template>

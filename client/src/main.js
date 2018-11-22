@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router';
-import App from './App.vue'
-import { router } from './router';
-import { store } from './store/store';
+import VueRouter from 'vue-router'
 import VueMaterial from 'vue-material'
 import DefaultLayout from './layouts/Default'
 import UserLayout from './layouts/User'
 import VueCookies from 'vue-cookies'
+import App from './App.vue'
+import { router } from './router'
+import { store } from './store/store'
 
 Vue.use(VueCookies);
 Vue.use(VueMaterial);

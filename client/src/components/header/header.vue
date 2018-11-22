@@ -6,19 +6,50 @@
     <nav>
       <ul>
         <li>
+          <router-link to="/">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/categories">Categories</router-link>
+        </li>
+        <li>
+          <router-link to="/products">Products</router-link>
+        </li>
+        <li v-if="!isLoggedIn">
           <router-link to="/signup">Sign Up</router-link>
         </li>
-        <li>
+        <li v-if="!isLoggedIn">
           <router-link to="/signin">Sign In</router-link>
         </li>
-        <li>
+        <li v-if="isLoggedIn">
           <router-link to="/dashboard">Dashboard</router-link>
+        </li>
+        <li v-if="isLoggedIn">
+          <a href="#" v-on:click="signOut()">Sign Out</a>
         </li>
       </ul>
     </nav>
   </header>
 </template>
+<script>
+    import * as types from '../../store/types';
 
+    export default {
+        methods: {
+            navigateToHome() {
+                this.$router.push({ name: 'home' });
+            },
+            signOut() {
+              this.$store.dispatch(types.LOGOUT_USER);
+              this.$router.push({ name: 'home' });
+            }
+        },
+        computed: {
+          isLoggedIn() {
+            return this.$store.getters.isLoggedIn;
+          }
+        }
+    }
+</script>
 <style scoped>
   #header {
     height: 56px;

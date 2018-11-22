@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>The Product Page</h1>
-        <p><button @click="navigateToHome" class="btn btn-primary">Go to Home</button></p>
+        <h1>Products</h1>
         <router-view></router-view>
     </div>
 </template>
