@@ -4,45 +4,51 @@ import Header from './components/Header.vue';
 const User = resolve => {
   require.ensure(['./components/user/User.vue'], () => {
     resolve(require('./components/user/User.vue'));
-  }, 'user');
+  });
 };
 const UserList = resolve => {
   require.ensure(['./components/user/UserList.vue'], () => {
     resolve(require('./components/user/UserList.vue'));
-  }, 'user');
+  });
 };
 const UserEdit = resolve => {
   require.ensure(['./components/user/UserEdit.vue'], () => {
     resolve(require('./components/user/UserEdit.vue'));
-  }, 'user');
+  });
 };
 const UserDetail = resolve => {
   require.ensure(['./components/user/UserDetail.vue'], () => {
     resolve(require('./components/user/UserDetail.vue'));
-  }, 'user');
+  });
 };
 
 const Category = resolve => {
   require.ensure(['./components/category/Category.vue'], () => {
     resolve(require('./components/category/Category.vue'));
-  }, 'category');
+  });
 };
 const CategoryList = resolve => {
   require.ensure(['./components/category/CategoryList.vue'], () => {
     resolve(require('./components/category/CategoryList.vue'));
-  }, 'category');
+  });
 };
 
 const CategoryDetail = resolve => {
   require.ensure(['./components/category/CategoryDetail.vue'], () => {
     resolve(require('./components/category/CategoryDetail.vue'));
-  }, 'category');
+  });
 };
 
 const CategoryEdit = resolve => {
   require.ensure(['./components/category/CategoryEdit.vue'], () => {
     resolve(require('./components/category/CategoryEdit.vue'));
-  }, 'category');
+  });
+};
+
+const NotFound = resolve => {
+  require.ensure(['./components/404.vue'], () => {
+    resolve(require('./components/404.vue'));
+  });
 };
 
 export const routes = [
@@ -56,6 +62,8 @@ export const routes = [
     path: '/users', components: {
       default: User,
       'header-bottom': Header
+    }, meta: {
+      layout: 'user'
     }, children: [
       { path: '', component: UserList },
       {
@@ -81,5 +89,6 @@ export const routes = [
     ]
   },
   { path: '/redirect-me', redirect: { name: 'home' } },
+  { path: '/404', component: NotFound, name: 'notFound' },
   { path: '*', redirec: '/' }
 ];

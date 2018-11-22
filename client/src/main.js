@@ -3,8 +3,16 @@ import VueRouter from 'vue-router';
 import App from './App.vue'
 import { routes } from './routes';
 import { store } from './store/store';
+import VueMaterial from 'vue-material'
 
+import DefaultLayout from './layouts/Default'
+import UserLayout from './layouts/User'
+
+Vue.use(VueMaterial)
 Vue.use(VueRouter);
+
+Vue.component('default-layout', DefaultLayout)
+Vue.component('user-layout', UserLayout)
 
 const router = new VueRouter({
   routes,

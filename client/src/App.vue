@@ -1,39 +1,33 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <h1>Routing</h1>
-                <hr>
-                <router-view name="header-top"></router-view>
-                <router-view></router-view>
-                <router-view name="header-bottom"></router-view>
-            </div>
-        </div>
-    </div>
+  <div class="page-container">
+      <component :is="layout">
+          <router-view />>
+      </component>
+  </div>
 </template>
 
 <script>
-    import Header from './components/Header.vue';
+    import {mapGetters} from 'vuex';
+    import * as types from './store/types';
+    
+    const default_layout = 'default';
+    
     export default {
-        components: {
-            //appHeader: Header
+        computed: {
+            ...mapGetters({
+                counter: types.DOUBLE_COUNTER
+            }),
+            layout(){
+                let layout = "";
+                
+                if(this.$route.matched.some(m => m.meta.layout))
+                {
+                    let matched = this.$route.matched.find(m => m.meta.layout)
+                    layout = matched.meta.layout;
+                }
+
+                return (layout || default_layout) + '-layout';
+            }
         }
     }
 </script>
-
-<style>
-    .slide-leave-active {
-        transition: opacity 1s ease;
-        opacity: 0;
-        animation: slide-out 1s ease-out forwards;
-    }
-
-    .slide-leave {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .slide-enter-active {
-        animation: slide-in 1s ease-out forwards;
-    }
-</style>
