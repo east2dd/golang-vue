@@ -5,7 +5,7 @@
             <span>
                 <router-link
                     tag="li"
-                    :to="'/categories/' + item.ID"
+                    :to="'/products/' + item.ID"
                     class="list-group-item"
                     style="cursor: pointer"><a href="javascript:void(0)">{{ item.Name }}</a></router-link>
             </span>
