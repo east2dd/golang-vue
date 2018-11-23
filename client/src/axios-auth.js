@@ -1,12 +1,12 @@
 import axios from 'axios'
+import * as config from './config'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3000/'
+  baseURL: config.API_BASE_URL
 })
 
-instance.defaults.headers.common['SOMETHING'] = 'something'
-instance.defaults.baseURL = 'http://localhost:3000'
-instance.defaults.headers.common['Authorization'] = 'fasfdsa'
+instance.defaults.baseURL = config.API_BASE_URL
+instance.defaults.headers.common['Authorization'] = $cookies.get('jwt')
 instance.defaults.headers.get['Accepts'] = 'application/json'
 
 instance.interceptors.request.use(config => {
