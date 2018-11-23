@@ -10,6 +10,20 @@ import (
 	u "github.com/xyingsoft/golang-vue/utils"
 )
 
+var GetProduct = func(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
+		return
+	}
+
+	data := models.GetProduct(uint(id))
+	resp := u.Message(true, "success")
+	resp["data"] = data
+	u.Respond(w, resp)
+}
+
 var GetProducts = func(w http.ResponseWriter, r *http.Request) {
 	data := models.GetProducts()
 	resp := u.Message(true, "success")
@@ -22,7 +36,7 @@ var CreateProduct = func(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(product)
 	if err != nil {
-		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
 		return
 	}
 
@@ -31,10 +45,18 @@ var CreateProduct = func(w http.ResponseWriter, r *http.Request) {
 }
 
 var UpdateProduct = func(w http.ResponseWriter, r *http.Request) {
+	user := r.Context().Value("user").(uint)
+
+	if user < 1 {
+		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
+		return
+	}
+
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
+
 	if err != nil {
-		u.Respond(w, u.Message(false, "There was an error in your request"))
+		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
 		return
 	}
 

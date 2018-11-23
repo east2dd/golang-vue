@@ -28,6 +28,7 @@ func (category *Category) Create() map[string]interface{} {
 	}
 
 	res, err := db.Exec(`INSERT INTO categories(name) VALUES( ? )`, category.Name)
+	checkErr(err)
 
 	if err == nil {
 		id, err := res.LastInsertId()
@@ -41,6 +42,6 @@ func (category *Category) Create() map[string]interface{} {
 	}
 
 	resp := u.Message(true, "success")
-	resp["category"] = category
+	resp["data"] = category
 	return resp
 }

@@ -4,12 +4,12 @@ func GetCategory(id uint) *Category {
 	category := &Category{}
 
 	rows, err := db.Query(`SELECT id, name FROM categories WHERE id = ?`, id)
-	checkErr(err)
 
 	for rows.Next() {
 		err = rows.Scan(&category.ID, &category.Name)
-		checkErr(err)
 	}
+
+	checkErr(err)
 
 	return category
 }
@@ -18,15 +18,15 @@ func GetCategories() []*Category {
 	categories := make([]*Category, 0)
 
 	rows, err := db.Query(`SELECT id, name FROM categories`)
-	checkErr(err)
 
 	for rows.Next() {
 		var temp = &Category{}
 		err = rows.Scan(&temp.ID, &temp.Name)
-		checkErr(err)
 
 		categories = append(categories, temp)
 	}
+
+	checkErr(err)
 
 	return categories
 }

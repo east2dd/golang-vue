@@ -23,16 +23,21 @@ func (product *Product) Validate() (map[string]interface{}, bool) {
 }
 
 func (product *Product) Create() map[string]interface{} {
+	if resp, ok := product.Validate(); !ok {
+		return resp
+	}
+
 	db := GetDB()
 	res, err := db.Exec(`INSERT INTO products(name) VALUES( ? )`, product.Name)
 	checkErr(err)
 
-	id, err := res.LastInsertId()
-	checkErr(err)
+	id, res_err := res.LastInsertId()
+	checkErr(res_err)
 
 	product.ID = uint(id)
 	resp := u.Message(true, "success")
 	resp["product"] = product
+
 	return resp
 }
 
@@ -46,10 +51,10 @@ func (product *Product) Update() map[string]interface{} {
 
 	if count > 0 {
 		resp := u.Message(true, "success")
-		resp["product"] = product
+		resp["data"] = product
 		return resp
 	} else {
-		resp := u.Message(true, "failed")
+		resp := u.Message(false, "failed")
 		return resp
 	}
 }

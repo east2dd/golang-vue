@@ -36,7 +36,6 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	}
 
 	//Email must be unique
-	println("validating account")
 	temp := &Account{}
 
 	rows, err := db.Query(`SELECT id, email FROM accounts WHERE email = ?`, account.Email)
@@ -60,11 +59,11 @@ func (account *Account) Create() map[string]interface{} {
 		return resp
 	}
 
-	println("create account")
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
 	account.Password = string(hashedPassword)
 
 	res, err := db.Exec(`INSERT INTO accounts(email, password) VALUES( ?, ? )`, account.Email, account.Password)
+	checkErr(err)
 
 	if err == nil {
 		id, err := res.LastInsertId()
@@ -120,22 +119,17 @@ func Login(email, password string) map[string]interface{} {
 }
 
 func GetUser(u uint) *Account {
-
 	account := &Account{}
-	rows, err := db.Query(`SELECT * FROM accounts WHERE id = ?`, u)
-	checkErr(err)
+	rows, err := db.Query(`SELECT id, email, password FROM accounts WHERE id = ?`, u)
 
 	for rows.Next() {
 		err = rows.Scan(&account.ID, &account.Email, &account.Password)
-		checkErr(err)
 	}
 
-	if err != nil {
-		panic(err)
-	} else {
-		if account.Email == "" { //User not found!
-			return nil
-		}
+	checkErr(err)
+
+	if account.Email == "" { //User not found!
+		return nil
 	}
 
 	account.Password = ""
