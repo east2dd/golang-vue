@@ -21,7 +21,7 @@ var CreateCategory = func(w http.ResponseWriter, r *http.Request) {
 
 	resp := category.Create()
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var GetCategories = func(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +29,7 @@ var GetCategories = func(w http.ResponseWriter, r *http.Request) {
 	resp := u.Message(true, "success")
 	resp["data"] = data
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var GetCategoriesFor = func(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +44,7 @@ var GetCategoriesFor = func(w http.ResponseWriter, r *http.Request) {
 	resp := u.Message(true, "success")
 	resp["data"] = data
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var GetCategory = func(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +59,7 @@ var GetCategory = func(w http.ResponseWriter, r *http.Request) {
 	resp := u.Message(true, "success")
 	resp["data"] = data
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var GetProductsFor = func(w http.ResponseWriter, r *http.Request) {
@@ -74,5 +74,5 @@ var GetProductsFor = func(w http.ResponseWriter, r *http.Request) {
 	resp := u.Message(true, "success")
 	resp["data"] = data
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }

@@ -18,7 +18,7 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 
 	resp := account.Create()
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
@@ -32,5 +32,5 @@ var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 
 	resp := models.Login(account.Email, account.Password)
 
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }

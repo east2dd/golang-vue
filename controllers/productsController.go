@@ -21,14 +21,14 @@ var GetProduct = func(w http.ResponseWriter, r *http.Request) {
 	data := models.GetProduct(uint(id))
 	resp := u.Message(true, "success")
 	resp["data"] = data
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var GetProducts = func(w http.ResponseWriter, r *http.Request) {
 	data := models.GetProducts()
 	resp := u.Message(true, "success")
 	resp["data"] = data
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var CreateProduct = func(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +41,7 @@ var CreateProduct = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := product.Create()
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }
 
 var UpdateProduct = func(w http.ResponseWriter, r *http.Request) {
@@ -66,5 +66,5 @@ var UpdateProduct = func(w http.ResponseWriter, r *http.Request) {
 
 	resp := u.Message(true, "success")
 	resp["data"] = product
-	u.Respond(w, resp)
+	u.Respond(w, resp, http.StatusOK)
 }

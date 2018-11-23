@@ -31,18 +31,16 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 
 		if tokenHeader == "" {
 			response = u.Message(false, "Missing auth token")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			u.Respond(w, response, http.StatusForbidden)
 			return
 		}
 
 		splitted := strings.Split(tokenHeader, " ")
 		if len(splitted) != 2 {
 			response = u.Message(false, "Invalid/Malformed auth token")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			u.Respond(w, response, http.StatusForbidden)
 			return
 		}
 
@@ -55,9 +53,8 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 
 		if err != nil { //Malformed token, returns with http code 403 as usual
 			response = u.Message(false, "Malformed authentication token")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			u.Respond(w, response, http.StatusForbidden)
 			return
 		}
 
@@ -65,7 +62,7 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 			response = u.Message(false, "Token is not valid.")
 			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			u.Respond(w, response, http.StatusForbidden)
 			return
 		}
 

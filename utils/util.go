@@ -9,7 +9,7 @@ func Message(status bool, message string) map[string]interface{} {
 	return map[string]interface{}{"status": status, "message": message}
 }
 
-func Respond(w http.ResponseWriter, data map[string]interface{}, status int = 200) {
+func Respond(w http.ResponseWriter, data map[string]interface{}, status int) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "*")
