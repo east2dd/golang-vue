@@ -15,15 +15,19 @@ go get -u github.com/xyingsoft/golang-vue
 
 Editting .env file for configuration
 ```sh
-export APP_URL=localhost:3000
+export APP_URL=http://localhost
+export APP_PORT=3000
 export APP_ENV=development
+
 export DB_USERNAME=root
 export DB_PASSWORD=
 export DB_HOST=localhost
 export DB_PORT=3306
 export DB_DATABASE=store
-export token_password=tokenGoesRightHere
-export PORT=3000
+
+export PUBLIC_PATH=./client/dist
+export TOKEN_PASSWORD=tokenGoesRightHere
+
 ```
 
 Seeding sample data to database
