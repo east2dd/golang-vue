@@ -1,11 +1,6 @@
 # Golang Vue Boilerplate (golang, mysql, vue)
 ##### Golang - REST API
-  - Install project with go get
-  - Config project configuration
-  - Seed sampe data to database
-  - Run project
 ##### Vue - Frontend
-  - Project run
   
 # REST API
 Installing project with go get and install dependencies
