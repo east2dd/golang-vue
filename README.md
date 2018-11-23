@@ -8,9 +8,12 @@
   - Project run
   
 # REST API
-Installing project with go get
+Installing project with go get and install dependencies
 ```sh
 go get -u github.com/xyingsoft/golang-vue
+
+$ cd $GOPATH/src/path/to/project/root
+dep init
 ```
 
 Editting .env file for configuration
