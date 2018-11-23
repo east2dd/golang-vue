@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -21,19 +20,6 @@ func IndexHandler(entrypoint string) func(w http.ResponseWriter, r *http.Request
 }
 
 func main() {
-	var entry string
-	var static string
-	var port string
-
-	flag.StringVar(&entry, "entry", "./public/index.html", "entry point")
-	flag.StringVar(&static, "static", "./public", "static files")
-	flag.Parse()
-
-	port = os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
-	}
-
 	router := mux.NewRouter()
 	// Handle all preflight request for CORS
 	router.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -56,9 +42,15 @@ func main() {
 	router.HandleFunc("/api/products", controllers.GetProducts).Methods("GET")
 	router.HandleFunc("/api/products/{id}", controllers.GetProduct).Methods("GET")
 
+	// static := os.Getenv("STATIC_PATH")
+	// entry := fmt.Sprintf("%s/index.html", static)
 	// router.PathPrefix("/dist").Handler(http.FileServer(http.Dir(static)))
 	// router.PathPrefix("/").HandlerFunc(IndexHandler(entry))
 
+	port := os.Getenv("APP_PORT")
+	if port == "" {
+		port = "3000"
+	}
 	fmt.Println("Listening: " + port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }

@@ -20,4 +20,4 @@ export const store = new Vuex.Store({
     }
 });
 
-store.dispatch(types.UPDATE_USER, $cookies.get('user'))
+store.dispatch(types.UPDATE_USER, window.$cookies.get('user'))
