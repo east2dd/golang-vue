@@ -5,12 +5,14 @@ import (
 )
 
 type CategoryParams struct {
-	Name string
+	Name 						string
+	Description     string
 }
 
 type Category struct {
-	ID       uint
-	Name     string
+	ID       				uint
+	Name     				string
+	Description     string
 	Products []*Product
 }
 
@@ -27,7 +29,7 @@ func (category *Category) Create() map[string]interface{} {
 		return resp
 	}
 
-	res, err := db.Exec(`INSERT INTO categories(name) VALUES( ? )`, category.Name)
+	res, err := db.Exec(`INSERT INTO categories(name, description) VALUES( ?, ? )`, category.Name, category.Description)
 	checkErr(err)
 
 	if err == nil {
@@ -44,4 +46,22 @@ func (category *Category) Create() map[string]interface{} {
 	resp := u.Message(true, "success")
 	resp["data"] = category
 	return resp
+}
+
+func (category *Category) Update() map[string]interface{} {
+	res, err := db.Exec(`UPDATE categories SET name = ?, description = ? WHERE id = ?`, category.Name, category.Description, category.ID)
+	checkErr(err)
+
+	var count int64
+	count, err = res.RowsAffected()
+	checkErr(err)
+
+	if count > 0 {
+		resp := u.Message(true, "success")
+		resp["data"] = category
+		return resp
+	} else {
+		resp := u.Message(false, "failed")
+		return resp
+	}
 }

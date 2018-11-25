@@ -2,6 +2,8 @@
     <div>
         <h5>ID: {{ $route.params.id }}, Name: {{ item.Name }}</h5>
 
+        <p>Description: {{ item.Description }}</p>
+        
         <md-subheader>PRODUCTS</md-subheader>
 
         <md-list class="md-double-line md-dense">

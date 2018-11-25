@@ -71,6 +71,12 @@ const ProductEdit = resolve => {
   });
 };
 
+const ProductNew = resolve => {
+  require.ensure(['./components/product/ProductNew.vue'], () => {
+    resolve(require('./components/product/ProductNew.vue'));
+  });
+};
+
 const NotFound = resolve => {
   require.ensure(['./components/404.vue'], () => {
     resolve(require('./components/404.vue'));
@@ -124,6 +130,7 @@ export const routes = [
     meta: { layout: 'user', requiresAuth: true }, 
     children: [
       { path: '', component: ProductList },
+      { path: 'new', component: ProductNew },
       { path: ':id', component: ProductDetail },
       { path: ':id/edit', component: ProductEdit, name: 'productEdit' }
     ]

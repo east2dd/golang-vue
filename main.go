@@ -40,7 +40,9 @@ func main() {
 	router.HandleFunc("/api/categories/{id}/products", controllers.GetProductsFor).Methods("GET")
 
 	router.HandleFunc("/api/products", controllers.GetProducts).Methods("GET")
+	router.HandleFunc("/api/products", controllers.CreateProduct).Methods("POST")
 	router.HandleFunc("/api/products/{id}", controllers.GetProduct).Methods("GET")
+	router.HandleFunc("/api/products/{id}", controllers.UpdateProduct).Methods("PUT")
 
 	// static := os.Getenv("STATIC_PATH")
 	// entry := fmt.Sprintf("%s/index.html", static)

@@ -2,10 +2,11 @@
     <div>
         <h5>Product Details</h5>
         <p>ID: {{ $route.params.id }}, Name: {{ item.Name }} </p>
+        <p>Description: {{ item.Description }}</p>
         <router-link
                 tag="button"
                 :to="link"
-                class="btn btn-primary">Edit Product
+                class="success button">Edit Product
         </router-link>
     </div>
 </template>
@@ -22,11 +23,7 @@
                 params: {
                     id: this.$route.params.id
                 },
-                query: {
-                    locale: 'en',
-                    q: 100
-                },
-                hash: '#data'
+                hash: ''
             },
             id: this.$route.params.id,
             item: {},

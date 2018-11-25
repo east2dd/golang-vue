@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Edit the Product</h3>
+        <h3>New Product</h3>
         <p>Name: <input type="text" v-model="item.Name"></p>
         <p>Description: <input type="text" v-model="item.Description"></p>
         <p><button class="button success" @click="saveProduct()">Save</button></p>
@@ -14,42 +14,20 @@
   export default {
       data() {
           return {
-            id: this.$route.params.id,
             item: {},
           }
       },
       methods: {
           saveProduct () {
-              axios.put('/api/products/' + this.id, {
+              axios.post('/api/products', {
                 name: this.item.Name,
                 description: this.item.Description
-                })
+              })
               .then((res) => {
                   this.item = res.data.data;
               })
               .catch(error => console.log(error))
           },
-          getProduct () {
-              axios.get('/api/products/' + this.id)
-              .then((res) => {
-                  this.item = res.data.data;
-              })
-              .catch(error => console.log(error))
-          }
-      },
-      mounted () {
-          this.getProduct()
-      },
-      beforeRouteLeave(to, from, next) {
-          if (this.confirmed) {
-              next();
-          } else {
-              if (confirm('Are you sure?')) {
-                  next();
-              } else {
-                  next(false);
-              }
-          }
       }
   }
 </script>

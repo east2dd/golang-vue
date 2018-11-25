@@ -11,6 +11,7 @@
                     style="cursor: pointer"><a href="javascript:void(0)">{{ item.Name }}</a></router-link>
             </span>
             <span>id: {{ item.ID }}</span>
+            <span>Description: {{ item.Description }}</span>
             </div>
         </md-list-item>
     </md-list>

@@ -45,12 +45,11 @@ var CreateProduct = func(w http.ResponseWriter, r *http.Request) {
 }
 
 var UpdateProduct = func(w http.ResponseWriter, r *http.Request) {
-	user := r.Context().Value("user").(uint)
-
-	if user < 1 {
-		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
-		return
-	}
+	// user := r.Context().Value("user").(uint)
+	// if user < 1 {
+	// 	u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
+	// 	return
+	// }
 
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
@@ -60,8 +59,13 @@ var UpdateProduct = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	decorder := json.NewDecoder(r.Body)
+	productParams := &models.ProductParams{}
+	decorder.Decode(&productParams)
+
 	product := models.GetProduct(uint(id))
-	product.Name = params["name"]
+	product.Name = productParams.Name
+	product.Description = productParams.Description
 	product.Update()
 
 	resp := u.Message(true, "success")

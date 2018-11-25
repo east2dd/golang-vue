@@ -3,11 +3,11 @@ package models
 func GetProduct(id uint) *Product {
 	product := &Product{}
 
-	rows, err := db.Query(`SELECT id, name FROM products WHERE id = ?`, id)
+	rows, err := db.Query(`SELECT id, name, description FROM products WHERE id = ?`, id)
 	checkErr(err)
 
 	for rows.Next() {
-		err = rows.Scan(&product.ID, &product.Name)
+		err = rows.Scan(&product.ID, &product.Name, &product.Description)
 		checkErr(err)
 	}
 
@@ -17,12 +17,12 @@ func GetProduct(id uint) *Product {
 func GetProducts() []*Product {
 	products := make([]*Product, 0)
 
-	rows, err := db.Query(`SELECT id, name FROM products`)
+	rows, err := db.Query(`SELECT id, name, description FROM products`)
 	checkErr(err)
 
 	for rows.Next() {
 		var temp = &Product{}
-		err = rows.Scan(&temp.ID, &temp.Name)
+		err = rows.Scan(&temp.ID, &temp.Name, &temp.Description)
 		checkErr(err)
 
 		products = append(products, temp)
@@ -33,7 +33,7 @@ func GetProducts() []*Product {
 
 func GetCategoriesFor(product uint) []*Category {
 	categories := make([]*Category, 0)
-	rows, err := db.Query(`SELECT categories.id, categories.name FROM categories 
+	rows, err := db.Query(`SELECT categories.id, categories.name, categories.description FROM categories 
 			LEFT JOIN categories_products ON (categories.id = categories_products.category_id)
 			WHERE categories_products.category_id = ? `, product)
 
@@ -41,7 +41,7 @@ func GetCategoriesFor(product uint) []*Category {
 
 	for rows.Next() {
 		var temp = &Category{}
-		err = rows.Scan(&temp.ID, &temp.Name)
+		err = rows.Scan(&temp.ID, &temp.Name, &temp.Description)
 		checkErr(err)
 
 		categories = append(categories, temp)

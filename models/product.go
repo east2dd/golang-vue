@@ -5,12 +5,14 @@ import (
 )
 
 type ProductParams struct {
-	Name string
+	Name 				string
+	Description string
 }
 
 type Product struct {
-	ID         uint
-	Name       string
+	ID         	uint
+	Name       	string
+	Description string
 	Categories []*Category
 }
 
@@ -28,7 +30,7 @@ func (product *Product) Create() map[string]interface{} {
 	}
 
 	db := GetDB()
-	res, err := db.Exec(`INSERT INTO products(name) VALUES( ? )`, product.Name)
+	res, err := db.Exec(`INSERT INTO products(name, description) VALUES( ?, ? )`, product.Name, product.Description)
 	checkErr(err)
 
 	id, res_err := res.LastInsertId()
@@ -36,13 +38,13 @@ func (product *Product) Create() map[string]interface{} {
 
 	product.ID = uint(id)
 	resp := u.Message(true, "success")
-	resp["product"] = product
+	resp["data"] = product
 
 	return resp
 }
 
 func (product *Product) Update() map[string]interface{} {
-	res, err := db.Exec(`UPDATE products SET name = ? WHERE id = ?`, product.Name, product.ID)
+	res, err := db.Exec(`UPDATE products SET name = ?, description = ? WHERE id = ?`, product.Name, product.Description, product.ID)
 	checkErr(err)
 
 	var count int64

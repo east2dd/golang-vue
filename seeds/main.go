@@ -23,11 +23,13 @@ func main() {
 	db.Exec(`CREATE TABLE categories (
 								id INT(10) NOT NULL AUTO_INCREMENT,
 								name VARCHAR(64) NULL DEFAULT NULL,
+								description VARCHAR(255) NULL DEFAULT NULL,
 								PRIMARY KEY (id));`)
 
 	db.Exec(`CREATE TABLE products (
 								id INT(10) NOT NULL AUTO_INCREMENT,
 								name VARCHAR(64) NULL DEFAULT NULL,
+								description VARCHAR(255) NULL DEFAULT NULL,
 								PRIMARY KEY (id));`)
 
 	db.Exec(`CREATE TABLE categories_products (
@@ -36,18 +38,18 @@ func main() {
 								product_id INT(10) NULL DEFAULT NULL,
 								PRIMARY KEY (id));`)
 
-	stmtAddCategory, err := db.Prepare("INSERT categories SET id=?, name=?")
+	stmtAddCategory, err := db.Prepare("INSERT categories SET id=?, name=?, description=?")
 	if err == nil {
-		stmtAddCategory.Exec(1, "category 1")
-		stmtAddCategory.Exec(2, "category 2")
-		stmtAddCategory.Exec(3, "category 3")
+		stmtAddCategory.Exec(1, "category 1", "description goes right here")
+		stmtAddCategory.Exec(2, "category 2", "description goes right here")
+		stmtAddCategory.Exec(3, "category 3", "description goes right here")
 	}
 
-	stmtAddProduct, err := db.Prepare("INSERT products SET id=?, name=?")
+	stmtAddProduct, err := db.Prepare("INSERT products SET id=?, name=?, description=?")
 	if err == nil {
-		stmtAddProduct.Exec(1, "product 1")
-		stmtAddProduct.Exec(2, "product 2")
-		stmtAddProduct.Exec(3, "product 3")
+		stmtAddProduct.Exec(1, "product 1", "description goes right here")
+		stmtAddProduct.Exec(2, "product 2", "description goes right here")
+		stmtAddProduct.Exec(3, "product 3", "description goes right here")
 	}
 
 	stmtAddCategoriesProducts, err := db.Prepare("INSERT categories_products SET category_id=?, product_id=?")

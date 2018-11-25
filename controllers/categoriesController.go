@@ -24,6 +24,29 @@ var CreateCategory = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp, http.StatusOK)
 }
 
+var UpdateCategory = func(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+
+	if err != nil {
+		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
+		return
+	}
+
+	decorder := json.NewDecoder(r.Body)
+	categoryParams := &models.CategoryParams{}
+	decorder.Decode(&categoryParams)
+
+	category := models.GetCategory(uint(id))
+	category.Name = categoryParams.Name
+	category.Description = categoryParams.Description
+	category.Update()
+
+	resp := u.Message(true, "success")
+	resp["data"] = category
+	u.Respond(w, resp, http.StatusOK)
+}
+
 var GetCategories = func(w http.ResponseWriter, r *http.Request) {
 	data := models.GetCategories()
 	resp := u.Message(true, "success")

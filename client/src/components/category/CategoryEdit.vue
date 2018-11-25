@@ -1,10 +1,8 @@
 <template>
     <div>
         <h3>Edit the Category</h3>
-        <p>Locale: {{ $route.query.locale }}</p>
-        <p>Analytics: {{ $route.query.q }}</p>
-        <p><button class="btn btn-primary" @click="confirmed = true">Confirm</button></p>
-        <p id="data">Some extra Data</p>
+        <p>Name: {{ item.Name }}</p>
+        <p>Description: {{ item.Description }}</p>
     </div>
 </template>
 
