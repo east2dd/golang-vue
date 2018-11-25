@@ -14,16 +14,16 @@
         <li>
           <router-link to="/products">Products</router-link>
         </li>
-        <li v-if="!isLoggedIn">
+        <li v-if="!isAuthenticated">
           <router-link to="/signup">Sign Up</router-link>
         </li>
-        <li v-if="!isLoggedIn">
+        <li v-if="!isAuthenticated">
           <router-link to="/signin">Sign In</router-link>
         </li>
-        <li v-if="isLoggedIn">
+        <li v-if="isAuthenticated">
           <router-link to="/dashboard">Dashboard</router-link>
         </li>
-        <li v-if="isLoggedIn">
+        <li v-if="isAuthenticated">
           <a href="#" v-on:click="signOut()">Sign Out</a>
         </li>
       </ul>
@@ -31,19 +31,23 @@
   </header>
 </template>
 <script>
-    import * as types from '../../store/types';
+    import { mapGetters } from 'vuex'
+    import { AUTH_LOGOUT } from '../../store/actions/auth'
 
     export default {
         methods: {
             navigateToHome() {
-                this.$router.push({ name: 'home' });
+                this.$router.push({ name: 'home' })
             },
             signOut() {
-              this.$store.dispatch(types.LOGOUT_USER);
-              this.$router.push({ name: 'home' });
+              this.$store.dispatch(AUTH_LOGOUT)
+              .then(() => {
+                this.$router.push({ name: 'home' })
+              })
             }
         },
         computed: {
+          ...mapGetters(['isAuthenticated', 'authStatus']),
           isLoggedIn() {
             return this.$store.getters.isLoggedIn;
           }

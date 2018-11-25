@@ -14,7 +14,6 @@
 
 <script>
   import axios from '../../axios-auth';
-  import * as types from '../../store/types';
   import ProductItem from '../product/ProductItem'
 
   export default {
@@ -34,14 +33,14 @@
               .then((res) => {
                   this.item = res.data.data;
               })
-              .catch(error => console.log(error))
+              .catch(error => window.console.log(error))
           },
           getProducts(){
               axios.get('/api/categories/' + this.id + '/products')
               .then((res) => {
                   this.products = res.data.data;
               })
-              .catch(error => console.log(error)) 
+              .catch(error => window.console.log(error)) 
           }
       },
       mounted () {

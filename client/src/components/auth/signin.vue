@@ -25,8 +25,7 @@
 </template>
 
 <script>
-  import axios from '../../axios-auth';
-  import * as types from '../../store/types';
+  import {AUTH_REQUEST} from '../../store/actions/auth'
 
   export default {
     data () {
@@ -36,18 +35,15 @@
       }
     },
     methods: {
+      login: function () {
+        const { email, password } = this
+        this.$store.dispatch(AUTH_REQUEST, { email, password }).then(() => {
+          this.$router.push({ name: 'categoryList' });
+        })
+      },
+ 
       onSubmit () {
-        const formData = {
-          email: this.email,
-          password: this.password,
-        }
-        
-        axios.post('/api/user/login', formData)
-          .then((res) => {
-            this.$store.dispatch(types.LOGIN_USER, res.data.account)
-            this.$router.push({ name: 'categoryList' });
-          })
-          .catch(error => console.log(error))
+        this.login()
       }
     }
   }

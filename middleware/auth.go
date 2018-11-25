@@ -13,11 +13,9 @@ import (
 	u "github.com/xyingsoft/golang-vue/utils"
 )
 
-type middleware func(next http.HandlerFunc) http.HandlerFunc
-
 var JwtAuthentication = func(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		notAuth := []string{"/"}
+		notAuth := []string{}
 		requestPath := r.URL.Path
 
 		for _, value := range notAuth {

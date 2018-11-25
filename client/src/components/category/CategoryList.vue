@@ -20,7 +20,6 @@
 
 <script>
 import axios from '../../axios-auth';
-import * as types from '../../store/types';
 export default {
     data() {
         return {
@@ -34,7 +33,7 @@ export default {
             .then((res) => {
                 this.items = res.data.data;
             })
-            .catch(error => console.log(error))
+            .catch(error => window.console.log(error))
         }
     },
     mounted () {

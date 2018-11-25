@@ -6,7 +6,7 @@ const instance = axios.create({
 })
 
 instance.defaults.baseURL = config.API_BASE_URL
-instance.defaults.headers.common['Authorization'] = $cookies.get('jwt')
+instance.defaults.headers.common['Authorization'] = 'Bearer ' + window.$cookies.get('user-token')
 instance.defaults.headers.get['Accepts'] = 'application/json'
 
 instance.interceptors.request.use(config => {

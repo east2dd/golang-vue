@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router';
 import { routes } from './routes';
+import store from './store'
 
 export const router = new VueRouter({
   routes,
@@ -16,35 +17,18 @@ export const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  let jwt = $cookies.get('jwt') || localStorage.getItem('jwt');
+  let isAuthenticated = store.getters.isAuthenticated
 
   if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (jwt == null) {
+      if (!isAuthenticated) {
           next({
               path: '/signin',
               params: { nextUrl: to.fullPath }
           })
       } else {
-          let user = JSON.parse(localStorage.getItem('user'))
-          if(to.matched.some(record => record.meta.is_admin)) {
-              if(user.is_admin == 1){
-                  next()
-              }
-              else{
-                  next({ name: 'categories'})
-              }
-          }else {
-              next()
-          }
+        next()
       }
-  } else if(to.matched.some(record => record.meta.guest)) {
-      if(jwt == null){
-          next()
-      }
-      else{
-          next({ name: 'categories'})
-      }
-  }else {
+  } else {
       next() 
   }
 })

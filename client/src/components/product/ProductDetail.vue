@@ -13,7 +13,6 @@
 
 <script>
   import axios from '../../axios-auth';
-  import * as types from '../../store/types';
   import ProductItem from '../product/ProductItem'
   export default {
       data() {

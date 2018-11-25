@@ -34,6 +34,7 @@ func main() {
 	// API route
 	router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
+	router.HandleFunc("/api/user/me", middleware.JwtAuthentication(controllers.CheckAuth)).Methods("GET")
 
 	router.HandleFunc("/api/categories", controllers.GetCategories).Methods("GET")
 	router.HandleFunc("/api/categories/{id}", controllers.GetCategory).Methods("GET")

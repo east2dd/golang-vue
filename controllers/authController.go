@@ -34,3 +34,7 @@ var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 
 	u.Respond(w, resp, http.StatusOK)
 }
+
+var CheckAuth = func(w http.ResponseWriter, r *http.Request) {
+	u.Respond(w, u.Message(true, "Success"), http.StatusOK)
+}
