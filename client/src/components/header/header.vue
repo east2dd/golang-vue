@@ -21,9 +21,6 @@
           <router-link to="/signin">Sign In</router-link>
         </li>
         <li v-if="isAuthenticated">
-          <router-link to="/dashboard">Dashboard</router-link>
-        </li>
-        <li v-if="isAuthenticated">
           <a href="#" v-on:click="signOut()">Sign Out</a>
         </li>
       </ul>
