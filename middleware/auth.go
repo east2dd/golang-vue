@@ -1,4 +1,4 @@
-package app
+package middleware
 
 import (
 	"context"
@@ -13,9 +13,11 @@ import (
 	u "github.com/xyingsoft/golang-vue/utils"
 )
 
-var JwtAuthentication = func(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		notAuth := []string{"/", "/api/user/new", "/api/user/login", "/api/categories", "/api/products"}
+type middleware func(next http.HandlerFunc) http.HandlerFunc
+
+var JwtAuthentication = func(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		notAuth := []string{"/"}
 		requestPath := r.URL.Path
 
 		for _, value := range notAuth {
@@ -70,5 +72,5 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		ctx := context.WithValue(r.Context(), "user", tk.UserId)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
-	})
+	}
 }

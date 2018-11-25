@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/xyingsoft/golang-vue/app"
+	"github.com/xyingsoft/golang-vue/middleware"
 	"github.com/xyingsoft/golang-vue/controllers"
 )
 
@@ -21,6 +21,7 @@ func IndexHandler(entrypoint string) func(w http.ResponseWriter, r *http.Request
 
 func main() {
 	router := mux.NewRouter()
+	
 	// Handle all preflight request for CORS
 	router.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -30,8 +31,7 @@ func main() {
 		return
 	})
 
-	// api route
-	router.Use(app.JwtAuthentication)
+	// API route
 	router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
 
@@ -40,9 +40,9 @@ func main() {
 	router.HandleFunc("/api/categories/{id}/products", controllers.GetProductsFor).Methods("GET")
 
 	router.HandleFunc("/api/products", controllers.GetProducts).Methods("GET")
-	router.HandleFunc("/api/products", controllers.CreateProduct).Methods("POST")
 	router.HandleFunc("/api/products/{id}", controllers.GetProduct).Methods("GET")
-	router.HandleFunc("/api/products/{id}", controllers.UpdateProduct).Methods("PUT")
+	router.HandleFunc("/api/products", middleware.JwtAuthentication(controllers.CreateProduct)).Methods("POST")
+	router.HandleFunc("/api/products/{id}", middleware.JwtAuthentication(controllers.UpdateProduct)).Methods("PUT")
 
 	// static := os.Getenv("STATIC_PATH")
 	// entry := fmt.Sprintf("%s/index.html", static)
