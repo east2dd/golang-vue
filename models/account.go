@@ -67,14 +67,28 @@ func (account *Account) Create() map[string]interface{} {
 		return u.Message(false, "Connection Error")
 	}
 
-	account.Token = GenerateUniqToken(32)
-	account.UpdateToken()
+	account.UpdateToken(GenerateUniqToken(32))
 	account.Password = "" //delete password
 
 	response := u.Message(true, "Account Created")
 	response["data"] = account
 
 	return response
+}
+
+func (account *Account) UpdateToken(token string) bool {
+	res, err := db.Exec(`UPDATE accounts SET token = ? WHERE id = ?`, token, account.ID)
+	checkErr(err)
+
+	var count int64
+	count, err = res.RowsAffected()
+	checkErr(err)
+
+	if count > 0 {
+		return true
+	} else {
+		return false
+	}
 }
 
 func Login(email, password string) map[string]interface{} {
@@ -102,8 +116,7 @@ func Login(email, password string) map[string]interface{} {
 	account.Password = ""
 
 	//Store the token in the response
-	account.Token = GenerateUniqToken(32)
-	account.UpdateToken()
+	account.UpdateToken(GenerateUniqToken(32))
 
 	if err != nil {
 		panic(err)
@@ -131,21 +144,6 @@ func GetUser(u uint) *Account {
 
 	account.Password = ""
 	return account
-}
-
-func (account *Account) UpdateToken() bool {
-	res, err := db.Exec(`UPDATE accounts SET token = ? WHERE id = ?`, account.Token, account.ID)
-	checkErr(err)
-
-	var count int64
-	count, err = res.RowsAffected()
-	checkErr(err)
-
-	if count > 0 {
-		return true
-	} else {
-		return false
-	}
 }
 
 func GenerateUniqToken(length uint) string {
