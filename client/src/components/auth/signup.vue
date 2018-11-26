@@ -33,6 +33,7 @@
 
 <script>
   import axios from '../../axios-auth';
+  import { AUTH_SIGNUP } from '../../store/actions/auth'
 
   export default {
     data () {
@@ -47,23 +48,14 @@
       }
     },
     methods: {
+      signUp: function () {
+        const { email, password, confirmPassword } = this
+        this.$store.dispatch(AUTH_SIGNUP, { email, password }).then(() => {
+          this.$router.push({ name: 'categoryList' });
+        })
+      },
       onSubmit () {
-        const formData = {
-          email: this.email,
-          password: this.password,
-          confirmPassword: this.confirmPassword,
-        }
-        
-        console.log(formData)
-
-        axios.post('/api/user/new', formData)
-          .then((res) => {
-            this.$cookies.set("jwt", res.data.account.token)
-            this.$cookies.set("user", res.data.account)
-
-            this.$router.push({ name: 'categoryList' });
-          })
-          .catch(error => console.log(error))
+        this.signUp()
       }
     }
   }

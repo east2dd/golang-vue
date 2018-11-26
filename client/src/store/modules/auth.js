@@ -36,7 +36,27 @@ const actions = {
       commit(authActions.AUTH_REQUEST)
       axios({url: '/api/user/login', data: user, method: 'POST' })
       .then(resp => {
-          const token = resp.data.data.token
+          const token = resp.data.data.Token
+          window.$cookies.set('user-token', token)
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          // Add the following line:
+          commit(authActions.AUTH_SUCCESS, token)
+          dispatch(userActions.USER_REQUEST)
+          resolve(resp)
+      })
+      .catch(err => {
+          commit(authActions.AUTH_ERROR, err)
+          window.$cookies.remove('user-token')
+          reject(err)
+      })
+    })
+  },
+  [authActions.AUTH_SIGNUP]: ({commit, dispatch}, user) => {
+    return new Promise((resolve, reject) => {
+      commit(authActions.AUTH_REQUEST)
+      axios({url: '/api/user/new', data: user, method: 'POST' })
+      .then(resp => {
+          const token = resp.data.data.Token
           window.$cookies.set('user-token', token)
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
           // Add the following line:

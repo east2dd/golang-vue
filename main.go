@@ -34,7 +34,7 @@ func main() {
 	// API route
 	router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
-	router.HandleFunc("/api/user/me", middleware.JwtAuthentication(controllers.CheckAuth)).Methods("GET")
+	router.HandleFunc("/api/user/me", middleware.TokenAuthentication(controllers.CheckAuth)).Methods("GET")
 
 	router.HandleFunc("/api/categories", controllers.GetCategories).Methods("GET")
 	router.HandleFunc("/api/categories/{id}", controllers.GetCategory).Methods("GET")
@@ -42,8 +42,8 @@ func main() {
 
 	router.HandleFunc("/api/products", controllers.GetProducts).Methods("GET")
 	router.HandleFunc("/api/products/{id}", controllers.GetProduct).Methods("GET")
-	router.HandleFunc("/api/products", middleware.JwtAuthentication(controllers.CreateProduct)).Methods("POST")
-	router.HandleFunc("/api/products/{id}", middleware.JwtAuthentication(controllers.UpdateProduct)).Methods("PUT")
+	router.HandleFunc("/api/products", middleware.TokenAuthentication(controllers.CreateProduct)).Methods("POST")
+	router.HandleFunc("/api/products/{id}", middleware.TokenAuthentication(controllers.UpdateProduct)).Methods("PUT")
 
 	// static := os.Getenv("STATIC_PATH")
 	// entry := fmt.Sprintf("%s/index.html", static)
