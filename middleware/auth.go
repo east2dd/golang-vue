@@ -31,9 +31,6 @@ var TokenAuthentication = func(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		tokenPart := splitted[1]
-
-		println(tokenPart)
-
 		account := models.GetUserByToken(tokenPart)
 
 		if account == nil {

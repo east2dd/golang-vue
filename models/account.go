@@ -1,13 +1,13 @@
 package models
 
 import (
+	"crypto/md5"
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"strings"
 
 	u "github.com/xyingsoft/golang-vue/utils"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Account struct {
@@ -51,8 +51,7 @@ func (account *Account) Create() map[string]interface{} {
 		return resp
 	}
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
-	account.Password = string(hashedPassword)
+	account.Password = fmt.Sprintf("%x", (md5.Sum([]byte(account.Password))))
 
 	res, err := db.Exec(`INSERT INTO accounts(email, password) VALUES( ?, ? )`, account.Email, account.Password)
 	checkErr(err)
@@ -93,14 +92,17 @@ func Login(email, password string) map[string]interface{} {
 		return u.Message(false, "User not found")
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(password))
-	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
+	password = fmt.Sprintf("%x", (md5.Sum([]byte(password))))
+
+	if account.Password != password {
 		return u.Message(false, "Wrong credentials")
 	}
 
 	//Worked! Logged In
 	account.Password = ""
-	account.Token = GenerateUniqToken(32) //Store the token in the response
+
+	//Store the token in the response
+	account.Token = GenerateUniqToken(32)
 	account.UpdateToken()
 
 	if err != nil {
@@ -131,6 +133,21 @@ func GetUser(u uint) *Account {
 	return account
 }
 
+func (account *Account) UpdateToken() bool {
+	res, err := db.Exec(`UPDATE accounts SET token = ? WHERE id = ?`, account.Token, account.ID)
+	checkErr(err)
+
+	var count int64
+	count, err = res.RowsAffected()
+	checkErr(err)
+
+	if count > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
 func GenerateUniqToken(length uint) string {
 	for {
 		tokenString, err := GenerateRandomString(32)
@@ -146,21 +163,6 @@ func GenerateUniqToken(length uint) string {
 	}
 
 	return ""
-}
-
-func (account *Account) UpdateToken() bool {
-	res, err := db.Exec(`UPDATE accounts SET token = ? WHERE id = ?`, account.Token, account.ID)
-	checkErr(err)
-
-	var count int64
-	count, err = res.RowsAffected()
-	checkErr(err)
-
-	if count > 0 {
-		return true
-	} else {
-		return false
-	}
 }
 
 func GetUserByToken(token string) *Account {
