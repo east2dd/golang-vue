@@ -7,7 +7,6 @@ import (
 	u "github.com/xyingsoft/golang-vue/utils"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -18,7 +17,7 @@ type Token struct {
 }
 
 type Account struct {
-	gorm.Model
+	ID       uint
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Token    string `json:"token";sql:"-"`
