@@ -7,11 +7,12 @@ Installing project with go get and install dependencies
 ```sh
 go get -u github.com/xyingsoft/golang-vue
 
-$ cd $GOPATH/src/path/to/project/root
-dep init
+go get -u github.com/go-sql-driver/mysql
+go get -u github.com/subosito/gotenv
+go get -u github.com/gorilla/mux
 ```
 
-Editting .env file for configuration
+Editing .env file for app db configuration
 ```sh
 export APP_URL=http://localhost
 export APP_PORT=3000
@@ -22,9 +23,6 @@ export DB_PASSWORD=
 export DB_HOST=localhost
 export DB_PORT=3306
 export DB_DATABASE=store
-
-export PUBLIC_PATH=./client/dist
-export TOKEN_PASSWORD=tokenGoesRightHere
 
 ```
 
