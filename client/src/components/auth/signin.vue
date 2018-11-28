@@ -40,7 +40,7 @@
       login: function () {
         const { email, password } = this
         this.$store.dispatch(AUTH_REQUEST, { email, password }).then((res) => {
-          if(res.data.message)
+          if(res.data.status!=true)
           {
             this.message = res.data.message
             return
