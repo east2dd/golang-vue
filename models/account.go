@@ -77,7 +77,9 @@ func (account *Account) Create() map[string]interface{} {
 }
 
 func (account *Account) UpdateToken(token string) bool {
-	res, err := db.Exec(`UPDATE accounts SET token = ? WHERE id = ?`, token, account.ID)
+	account.Token = token
+
+	res, err := db.Exec(`UPDATE accounts SET token = ? WHERE id = ?`, account.Token, account.ID)
 	checkErr(err)
 
 	var count int64

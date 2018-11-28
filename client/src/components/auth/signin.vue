@@ -16,9 +16,10 @@
                   id="password"
                   v-model="password">
         </div>
-        <div class="submit">
+        <p class="submit">
           <button type="submit">Submit</button>
-        </div>
+        </p>
+        <div class="callout alert" v-if="message">{{ message }}</div>
       </form>
     </div>
   </div>
@@ -31,13 +32,20 @@
     data () {
       return {
         email: '',
-        password: ''
+        password: '',
+        message: '',
       }
     },
     methods: {
       login: function () {
         const { email, password } = this
-        this.$store.dispatch(AUTH_REQUEST, { email, password }).then(() => {
+        this.$store.dispatch(AUTH_REQUEST, { email, password }).then((res) => {
+          if(res.data.message)
+          {
+            this.message = res.data.message
+            return
+          }
+
           this.$router.push({ name: 'categoryList' });
         })
       },

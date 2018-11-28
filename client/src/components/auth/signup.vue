@@ -23,9 +23,10 @@
                   id="confirm-password"
                   v-model="confirmPassword">
         </div>
-        <div class="submit">
+        <p class="submit">
           <button type="submit">Submit</button>
-        </div>
+        </p>
+        <div class="callout alert" v-if="message">{{ message }}</div>
       </form>
     </div>
   </div>
@@ -39,18 +40,20 @@
     data () {
       return {
         email: '',
-        age: null,
         password: '',
         confirmPassword: '',
-        country: 'usa',
-        hobbyInputs: [],
-        terms: false
+        message: '',
       }
     },
     methods: {
       signUp: function () {
         const { email, password, confirmPassword } = this
-        this.$store.dispatch(AUTH_SIGNUP, { email, password }).then(() => {
+        this.$store.dispatch(AUTH_SIGNUP, { email, password }).then((res) => {
+          if(res.data.message)
+          {
+            this.message = res.data.message
+            return
+          }
           this.$router.push({ name: 'categoryList' });
         })
       },
