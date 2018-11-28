@@ -49,6 +49,6 @@ Running project
 $ cd $GOPATH/src/path/to/project/root
 cd client
 npm install
-npm run start
+npm run serve
 ```
 bring browser up and browse http://localhost:8080
