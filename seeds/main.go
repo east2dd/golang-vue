@@ -29,6 +29,7 @@ func main() {
 								id INT(10) NOT NULL AUTO_INCREMENT,
 								name VARCHAR(64) NULL DEFAULT NULL,
 								description VARCHAR(255) NULL DEFAULT NULL,
+								price INT(10) NULL DEFAULT NULL,
 								PRIMARY KEY (id));`)
 
 	db.Exec(`CREATE TABLE categories_products (

@@ -32,15 +32,20 @@ var GetProducts = func(w http.ResponseWriter, r *http.Request) {
 }
 
 var CreateProduct = func(w http.ResponseWriter, r *http.Request) {
-	product := &models.Product{}
+	productParams := &models.ProductParams{}
 
-	err := json.NewDecoder(r.Body).Decode(product)
+	err := json.NewDecoder(r.Body).Decode(productParams)
 	if err != nil {
 		u.Respond(w, u.Message(false, "Bad Request"), http.StatusBadRequest)
 		return
 	}
 
+	product := &models.Product{}
+	product.Name = productParams.Name
+	product.Description = productParams.Description
+	product.Price = productParams.Price
 	resp := product.Create()
+
 	u.Respond(w, resp, http.StatusOK)
 }
 
@@ -66,6 +71,7 @@ var UpdateProduct = func(w http.ResponseWriter, r *http.Request) {
 	product := models.GetProduct(uint(id))
 	product.Name = productParams.Name
 	product.Description = productParams.Description
+	product.Price = productParams.Price
 	product.Update()
 
 	resp := u.Message(true, "success")

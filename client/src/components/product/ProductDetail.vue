@@ -2,6 +2,7 @@
     <div>
         <h5>Product Details</h5>
         <p>ID: {{ $route.params.id }}, Name: {{ item.Name }} </p>
+        <p>Price: {{ item.Price }}</p>
         <p>Description: {{ item.Description }}</p>
         <router-link
                 tag="button"

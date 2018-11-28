@@ -9,6 +9,7 @@
                 style="cursor: pointer"><a href="javascript:void(0)">{{ this.item.Name }}</a></router-link>
         </span>
         <span>id: {{ this.item.ID }}</span>
+        <span>Price: {{ this.item.Price }}</span>
         </div>
     </md-list-item>
 </template>

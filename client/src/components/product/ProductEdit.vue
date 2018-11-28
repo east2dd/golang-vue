@@ -3,6 +3,7 @@
         <h3>Edit the Product</h3>
         <p>Name: <input type="text" v-model="item.Name"></p>
         <p>Description: <input type="text" v-model="item.Description"></p>
+        <p>Price: <input type="number" v-model="item.Price"></p>
         <p><button class="button success" @click="saveProduct()">Save</button></p>
     </div>
 </template>
@@ -21,7 +22,8 @@
           saveProduct () {
               axios.put('/api/products/' + this.id, {
                 name: this.item.Name,
-                description: this.item.Description
+                description: this.item.Description,
+                price: parseInt(this.item.Price)
                 })
               .then((res) => {
                   this.item = res.data.data;
