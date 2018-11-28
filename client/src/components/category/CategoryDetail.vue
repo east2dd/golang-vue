@@ -6,9 +6,9 @@
         
         <md-subheader>PRODUCTS</md-subheader>
 
-        <md-list class="md-double-line md-dense">
-            <product-item v-for="item in products" :item="item" :key="item.ID" ></product-item>
-        </md-list>
+        <div class="row">
+            <product-item v-for="item in products" :item="item" :key="item.ID" class="columns medium-4"></product-item>
+        </div>
     </div>
 </template>
 

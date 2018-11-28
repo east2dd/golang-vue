@@ -8,7 +8,7 @@
         
     <div class="row">
         <div class="columns medium-4" v-for="item in items" :key="item.ID">
-            <p><img src="https://via.placeholder.com/300.png" style="width: 300px;"/></p>
+            <p><img src="https://via.placeholder.com/300.png"/></p>
             <router-link
                 tag="p"
                 :to="'/products/' + item.ID"
