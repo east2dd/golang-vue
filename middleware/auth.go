@@ -14,7 +14,6 @@ var TokenAuthentication = func(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		response := make(map[string]interface{})
 		tokenHeader := r.Header.Get("Authorization")
-
 		if tokenHeader == "" {
 			response = u.Message(false, "Missing auth token")
 			w.Header().Add("Content-Type", "application/json")
@@ -32,7 +31,6 @@ var TokenAuthentication = func(next http.HandlerFunc) http.HandlerFunc {
 
 		tokenPart := splitted[1]
 		account := models.GetUserByToken(tokenPart)
-
 		if account == nil {
 			response = u.Message(false, "Invalid/Malformed auth token")
 			w.Header().Add("Content-Type", "application/json")

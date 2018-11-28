@@ -12,7 +12,6 @@ import (
 var db *sql.DB //database
 
 func init() {
-
 	e := gotenv.Load() //Load .env file
 	if e != nil {
 		fmt.Print(e)
@@ -34,15 +33,12 @@ func init() {
 			os.Getenv("DB_DATABASE"))
 	}
 
-	fmt.Println(dbURI)
-
 	conn, err := sql.Open("mysql", dbURI)
 	if err != nil {
 		fmt.Print(err)
 	}
 
 	db = conn
-
 }
 
 func GetDB() *sql.DB {

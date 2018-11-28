@@ -27,26 +27,27 @@
     </nav>
   </header>
 </template>
-<script>
-    import { mapGetters } from 'vuex'
-    import { AUTH_LOGOUT } from '../../store/actions/auth'
 
-    export default {
-        methods: {
-            navigateToHome() {
-                this.$router.push({ name: 'home' })
-            },
-            signOut() {
-              this.$store.dispatch(AUTH_LOGOUT)
-              .then(() => {
-                this.$router.push({ name: 'home' })
-              })
-            }
-        },
-        computed: {
-          ...mapGetters(['isAuthenticated', 'authStatus']),
-        }
+<script>
+  import { mapGetters } from 'vuex'
+  import { AUTH_LOGOUT } from '../../store/actions/auth'
+
+  export default {
+    methods: {
+      navigateToHome() {
+        this.$router.push({ name: 'home' })
+      },
+      signOut() {
+        this.$store.dispatch(AUTH_LOGOUT)
+        .then(() => {
+          this.$router.push({ name: 'home' })
+        })
+      }
+    },
+    computed: {
+      ...mapGetters(['isAuthenticated', 'authStatus']),
     }
+  }
 </script>
 <style scoped>
   #header {
