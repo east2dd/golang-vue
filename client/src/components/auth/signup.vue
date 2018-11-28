@@ -3,7 +3,7 @@
     <div class="signup-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
-          <label for="email">Mail</label>
+          <label for="email">Email</label>
           <input
                   type="email"
                   id="email"
@@ -48,6 +48,12 @@
     methods: {
       signUp: function () {
         const { email, password, confirmPassword } = this
+        if(password != confirmPassword)
+        {
+          this.message = "Passwords doesn't match"
+          return
+        }
+
         this.$store.dispatch(AUTH_SIGNUP, { email, password }).then((res) => {
           if(res.data.message)
           {
