@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">  
+  <div class="page-conVtainer">  
     <router-view name="header-top"></router-view>
     
     <md-app md-waterfall md-mode="fixed">

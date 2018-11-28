@@ -45,9 +45,6 @@
         },
         computed: {
           ...mapGetters(['isAuthenticated', 'authStatus']),
-          isLoggedIn() {
-            return this.$store.getters.isLoggedIn;
-          }
         }
     }
 </script>

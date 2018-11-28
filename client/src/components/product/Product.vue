@@ -1,6 +1,7 @@
 <template>
     <div class="row">
         <h1>Products</h1>
+        <hr>
         <router-view></router-view>
     </div>
 </template>

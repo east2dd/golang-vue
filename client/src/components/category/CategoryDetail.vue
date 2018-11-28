@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h5>ID: {{ $route.params.id }}, Name: {{ item.Name }}</h5>
-
-        <p>Description: {{ item.Description }}</p>
+        <h5>{{ item.Name }}</h5>
+        <p>{{ item.Description }}</p>
         
         <md-subheader>PRODUCTS</md-subheader>
 

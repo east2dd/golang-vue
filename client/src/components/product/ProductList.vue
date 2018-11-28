@@ -1,7 +1,8 @@
 <template>
 <div>
     <router-link
-            tag="li"
+            tag="p"
+            v-if="isAuthenticated"
             to="/products/new"
             class="button"
             style="cursor: pointer">New Product</router-link>
@@ -21,6 +22,7 @@
 </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import axios from '../../axios-auth';
 export default {
     data() {
@@ -37,6 +39,9 @@ export default {
             })
             .catch(error => window.console.log(error))
         }
+    },
+    computed: {
+        ...mapGetters(['isAuthenticated', 'authStatus']),
     },
     mounted () {
         this.getProducts()

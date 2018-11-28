@@ -111,7 +111,6 @@ export const routes = [
       default: Category,
       'header-top': Header
     },
-    meta: { layout: 'user', requiresAuth: true }, 
     children: [
       { path: '', component: CategoryList, name: 'categoryList' },
       {
@@ -127,12 +126,11 @@ export const routes = [
       default: Product,
       'header-top': Header
     },
-    meta: { layout: 'user', requiresAuth: true }, 
     children: [
       { path: '', component: ProductList },
-      { path: 'new', component: ProductNew },
       { path: ':id', component: ProductDetail },
-      { path: ':id/edit', component: ProductEdit, name: 'productEdit' }
+      { path: 'new', component: ProductNew, meta: { layout: 'user', requiresAuth: true } },
+      { path: ':id/edit', component: ProductEdit, name: 'productEdit', meta: { layout: 'user', requiresAuth: true } }
     ]
   },
   { path: '/redirect-me', redirect: { name: 'home' } },

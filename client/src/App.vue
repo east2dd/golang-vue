@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page">
     <app-header />
     <component :is="layout">
         <router-view />
@@ -43,3 +43,13 @@
         }
     }
 </script>
+
+<style>
+h1{
+    text-transform: uppercase;
+    font-size: 24px;
+}
+.page-container{
+    margin-top: 3em;
+}
+</style>
