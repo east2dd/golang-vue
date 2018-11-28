@@ -19,6 +19,7 @@
             </span>
             <span>id: {{ item.ID }}</span>
             <span>description: {{ item.Description }}</span>
+            <span>price: {{ item.Price }}</span>
             </div>
         </md-list-item>
     </md-list>
