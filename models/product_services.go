@@ -15,6 +15,7 @@ func GetProduct(id uint) *Product {
 		err = rows.Scan(&product.ID, &product.Name, &product.Description, &price)
 		checkErr(err)
 		product.Price = price.Int64
+		product.Categories = GetCategoriesFor(product.ID)
 	}
 
 	return product
@@ -33,6 +34,7 @@ func GetProducts() []*Product {
 		checkErr(err)
 
 		temp.Price = price.Int64
+		temp.Categories = GetCategoriesFor(temp.ID)
 		products = append(products, temp)
 	}
 
