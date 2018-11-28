@@ -111,6 +111,7 @@ export const routes = [
       default: Category,
       'header-top': Header
     },
+    meta: { layout: 'user' },
     children: [
       { path: '', component: CategoryList, name: 'categoryList' },
       {
@@ -126,6 +127,7 @@ export const routes = [
       default: Product,
       'header-top': Header
     },
+    meta: { layout: 'user' },
     children: [
       { path: '', component: ProductList },
       { path: ':id', component: ProductDetail },
