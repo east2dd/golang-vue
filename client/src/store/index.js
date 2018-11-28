@@ -6,13 +6,13 @@ import user from './modules/user'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-    state: {
-      page_title: "Home"
-    },
-    modules: {
-      auth,
-      user
-    }
+  state: {
+    page_title: "Home"
+  },
+  modules: {
+    auth,
+    user
+  }
 });
 
 export default store;

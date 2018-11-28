@@ -5,10 +5,10 @@
 </template>
 
 <script>
-    export default {
-        components:{
-        },
-        computed: {
-        }
+  export default {
+    components:{
+    },
+    computed: {
     }
+  }
 </script>

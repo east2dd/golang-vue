@@ -90,8 +90,8 @@ const actions = {
 };
 
 export default {
-    state,
-    mutations,
-    actions,
-    getters
+  state,
+  mutations,
+  actions,
+  getters
 }

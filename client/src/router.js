@@ -20,16 +20,16 @@ router.beforeEach((to, from, next) => {
   let isAuthenticated = store.getters.isAuthenticated
 
   if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (!isAuthenticated) {
-          next({
-              path: '/signin',
-              params: { nextUrl: to.fullPath }
-          })
-      } else {
-        next()
-      }
+    if (!isAuthenticated) {
+      next({
+          path: '/signin',
+          params: { nextUrl: to.fullPath }
+      })
+    } else {
+      next()
+    }
   } else {
-      next() 
+    next() 
   }
 })
 
