@@ -130,8 +130,8 @@ export const routes = [
     meta: { layout: 'user' },
     children: [
       { path: '', component: ProductList },
-      { path: ':id', component: ProductDetail },
       { path: 'new', component: ProductNew, meta: { layout: 'user', requiresAuth: true } },
+      { path: ':id', component: ProductDetail },
       { path: ':id/edit', component: ProductEdit, name: 'productEdit', meta: { layout: 'user', requiresAuth: true } }
     ]
   },
