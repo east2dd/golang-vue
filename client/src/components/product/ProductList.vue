@@ -1,29 +1,24 @@
 <template>
-  <div>
+<div>
     <router-link
             tag="li"
             to="/products/new"
             class="button"
             style="cursor: pointer">New Product</router-link>
         
-    <md-list class="md-double-line md-dense">
-
-        <md-list-item v-for="item in items" :key="item.ID">
-            <div class="md-list-item-text">
-            <span>
-                <router-link
-                    tag="li"
-                    :to="'/products/' + item.ID"
-                    class="list-group-item"
-                    style="cursor: pointer"><a href="javascript:void(0)">{{ item.Name }}</a></router-link>
-            </span>
-            <span>id: {{ item.ID }}</span>
-            <span>description: {{ item.Description }}</span>
-            <span>price: {{ item.Price }}</span>
-            </div>
-        </md-list-item>
-    </md-list>
-  </div>
+    <div class="row">
+        <div class="columns medium-4" v-for="item in items" :key="item.ID">
+            <p><img src="https://via.placeholder.com/300.png" style="width: 300px;"/></p>
+            <router-link
+                tag="p"
+                :to="'/products/' + item.ID"
+                class="list-group-item"
+                style="cursor: pointer"><a href="javascript:void(0)">{{ item.Name }}</a></router-link>
+            <p>{{ item.Description }}</p>
+            <p>price: {{ item.Price }}</p>
+        </div>
+    </div>
+</div>
 </template>
 <script>
 import axios from '../../axios-auth';

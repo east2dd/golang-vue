@@ -2,8 +2,8 @@
     <div>
         <h3>Edit the Product</h3>
         <p>Name: <input type="text" v-model="item.Name"></p>
-        <p>Description: <input type="text" v-model="item.Description"></p>
         <p>Price: <input type="number" v-model="item.Price"></p>
+        <p>Description: <input type="text" v-model="item.Description"></p>
         <p><button class="button success" @click="saveProduct()">Save</button></p>
     </div>
 </template>

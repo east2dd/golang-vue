@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/xyingsoft/golang-vue/middleware"
 	"github.com/xyingsoft/golang-vue/controllers"
+	"github.com/xyingsoft/golang-vue/middleware"
 )
 
 func IndexHandler(entrypoint string) func(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +21,7 @@ func IndexHandler(entrypoint string) func(w http.ResponseWriter, r *http.Request
 
 func main() {
 	router := mux.NewRouter()
-	
+
 	// Handle all preflight request for CORS
 	router.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")

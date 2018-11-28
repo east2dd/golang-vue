@@ -14,6 +14,7 @@ func GetProduct(id uint) *Product {
 	for rows.Next() {
 		err = rows.Scan(&product.ID, &product.Name, &product.Description, &price)
 		checkErr(err)
+
 		product.Price = price.Int64
 		product.Categories = GetCategoriesFor(product.ID)
 	}
@@ -46,7 +47,6 @@ func GetCategoriesFor(product uint) []*Category {
 	rows, err := db.Query(`SELECT categories.id, categories.name, categories.description FROM categories 
 			LEFT JOIN categories_products ON (categories.id = categories_products.category_id)
 			WHERE categories_products.category_id = ? `, product)
-
 	checkErr(err)
 
 	for rows.Next() {
