@@ -1,6 +1,6 @@
 import Home from './components/Home.vue';
 import Header from './components/Header.vue';
-import DashboardPage from './components/dashboard/dashboard.vue'
+import DashboardPage from './components/dashboard.vue'
 import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/signin.vue'
 
